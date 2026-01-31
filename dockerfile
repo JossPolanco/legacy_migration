@@ -15,7 +15,7 @@ WORKDIR /app
 COPY backend ./
 RUN dotnet publish -c Release -o out
 
-# Stage 3: Runtime
+# Stage 3: Runtimes
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=backend-build /app/out .
