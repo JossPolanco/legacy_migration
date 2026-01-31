@@ -1,0 +1,38 @@
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+
+# Local user-specific settings
+appsettings.Development.json
+appsettings.Local.json
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# ReSharper
+.idea/
+*.sln.iml
+*.resharper
+
+# Entity Framework
+efpt.config.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
