@@ -20,6 +20,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=backend-build /app/out .
 COPY --from=frontend-build /app/backend/wwwroot ./wwwroot
-EXPOSE 5095
-ENV ASPNETCORE_URLS=http://+:5095
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
 ENTRYPOINT ["dotnet", "Template_API.dll"]
