@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 
 const AuthContext = createContext({
   user: null,
+  token: null,
   loading: true,
   login: async () => {},
   logout: () => {},
@@ -9,6 +10,7 @@ const AuthContext = createContext({
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
+  const [token, setToken] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -18,6 +20,7 @@ export function AuthProvider({ children }) {
         const saved = JSON.parse(raw)
         if (saved && typeof saved === 'object') {
           setUser(saved.user || saved)
+          setToken(saved.token || null)
         }
       }
     } catch (_) {
@@ -46,21 +49,23 @@ export function AuthProvider({ children }) {
 
     const data = await res.json()
     const nextUser = data?.User || data?.user || null
-    const token = data?.Token || data?.token || null
+    const nextToken = data?.Token || data?.token || null
     setUser(nextUser)
+    setToken(nextToken)
     try {
-      localStorage.setItem('auth', JSON.stringify({ user: nextUser, token }))
+      localStorage.setItem('auth', JSON.stringify({ user: nextUser, token: nextToken }))
     } catch (_) {}
   }
 
   const logout = () => {
     setUser(null)
+    setToken(null)
     try {
       localStorage.removeItem('auth')
     } catch (_) {}
   }
 
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading])
+  const value = useMemo(() => ({ user, token, loading, login, logout }), [user, token, loading])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

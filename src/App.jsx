@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Layout from './components/Layout'
+import TaskManager from './pages/TaskManager'
 
 export default function App() {
     return (
@@ -12,7 +13,7 @@ export default function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/app" element={<Layout />}>
                     <Route index element={<Navigate to="/app/task" replace />} />
-                    <Route path="task" element={<div>Task Page</div>} />
+                    <Route path="task" element={<TaskManager />} />
                     <Route path="projects" element={<div>Projects Page</div>} />
                     <Route path="comments" element={<div>Comments Page</div>} />
                     <Route path="historial" element={<div>History Page</div>} />

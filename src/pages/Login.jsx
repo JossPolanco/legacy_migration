@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-    const { login, loading } = useAuth()
+    const { user, login, loading } = useAuth()
+    const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [submitting, setSubmitting] = useState(false)
     const [error, setError] = useState(null)
+
+    // Redirect if already logged in
+    useEffect(() => {
+        if (user && !loading) {
+            navigate('/app', { replace: true })
+        }
+    }, [user, loading, navigate])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -18,6 +27,7 @@ const Login = () => {
         try {
             setSubmitting(true)
             await login(username.trim(), password)
+            // Navigation will happen automatically via useEffect
         } catch (err) {
             setError('No se pudo iniciar sesión')
         } finally {

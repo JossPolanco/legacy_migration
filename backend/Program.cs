@@ -36,6 +36,8 @@ builder.Services.AddDbContext<ProjectTemplateScharpContext>(options =>
 });
 
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 // JWT Authentication
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
@@ -81,6 +83,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// app.MapFallbackToFile("index.html");
+app.MapFallbackToFile("index.html");
 
 app.Run();

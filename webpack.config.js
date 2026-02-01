@@ -51,5 +51,19 @@ module.exports = {
             React: 'react'
         })
     ],
+    devServer: {
+        port: 3000,
+        static: {
+            directory: path.join(__dirname, 'public'),
+        },
+        historyApiFallback: true,
+        proxy: [{
+            context: ['/api'],
+            target: 'http://localhost:5095',
+            secure: false,
+            changeOrigin: true
+        }],
+        open: false
+    },
     mode: 'development'
 };
