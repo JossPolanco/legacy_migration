@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -9,6 +10,7 @@ module.exports = {
         publicPath: '/', 
         clean: true
     },
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -44,6 +46,9 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: '../css/styles.css'
+        }),
+        new webpack.ProvidePlugin({
+            React: 'react'
         })
     ],
     mode: 'development'

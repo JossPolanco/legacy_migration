@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Template_API.Models;
 using Template_API.Services;
 using Template_API.Interfaces;
@@ -20,9 +23,38 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddDbContext<ProjectTemplateScharpContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ProjectTemplateConnection")));
+{
+    var connectionString = builder.Configuration.GetConnectionString("ProjectTemplateConnection");
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+    {
+        npgsqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorCodesToAdd: null);
+        npgsqlOptions.CommandTimeout(30);
+    });
+});
 
 builder.Services.AddScoped<IUsersService, UsersService>();
+
+// JWT Authentication
+var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+    });
+
+builder.Services.AddAuthorization();
+builder.Services.AddSingleton<JwtTokenService>();
 
 // Configure OpenAPI (native to .NET 10)
 builder.Services.AddOpenApi();
@@ -44,6 +76,7 @@ app.UseHttpsRedirection();
 // Use CORS
 app.UseCors("AllowFrontend");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

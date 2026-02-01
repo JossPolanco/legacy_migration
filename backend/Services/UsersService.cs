@@ -15,8 +15,8 @@ namespace Template_API.Services
         {
             var users = _context.TblUsers.Select(u => new UsersRequestoDto
             {
-                Username = u.Nickname,
-                Email = u.Email
+                Username = u.Username,
+                Password = u.Password
             }).ToList();
             return users;
         }

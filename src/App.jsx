@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import Login from './components/Login'
+import Login from './pages/Login'
 import Layout from './components/Layout'
 
 export default function App() {
