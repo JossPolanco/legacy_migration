@@ -48,6 +48,7 @@ builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IHistoryService, HistoryService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? builder.Configuration["JWT_KEY"] ?? "DefaultJwtSecretKeyForDevelopmentPurposesOnly2024!";
