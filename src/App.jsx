@@ -7,6 +7,7 @@ import ProjectManager from './pages/ProjectManager'
 import CommentManager from './pages/CommentManager'
 import HistoryManager from './pages/HistoryManager'
 import NotificationManager from './pages/NotificationManager'
+import SearchManager from './pages/SearchManager'
 
 export default function App() {
     return (
@@ -22,7 +23,7 @@ export default function App() {
                     <Route path="comments" element={<CommentManager />} />
                     <Route path="historial" element={<HistoryManager />} />
                     <Route path="notificaciones" element={<NotificationManager />} />
-                    <Route path="busqueda" element={<div>Búsqueda Page</div>} />
+                    <Route path="busqueda" element={<SearchManager />} />
                     <Route path="reportes" element={<div>Reportes Page</div>} />
                 </Route>
             </Routes>
