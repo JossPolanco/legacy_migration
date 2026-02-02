@@ -42,7 +42,21 @@ export function AuthProvider({ children }) {
     const p = String(password || '')
     if (!u || !p) throw new Error('Ingrese usuario y contraseña')
 
-    const baseUrl = window.location.port === '5095' ? '' : 'http://localhost:5095'
+    // Detectar automáticamente el entorno
+    const getBaseUrl = () => {
+      // Si estamos en localhost:5095, usar URL relativa
+      if (window.location.port === '5095') {
+        return ''
+      }
+      // Si estamos en production (Railway u otro), usar URL relativa también
+      if (window.location.hostname !== 'localhost') {
+        return ''
+      }
+      // Para desarrollo local, usar localhost:5095
+      return 'http://localhost:5095'
+    }
+
+    const baseUrl = getBaseUrl()
     const res = await fetch(`${baseUrl}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
