@@ -141,7 +141,34 @@ namespace Template_API.Services
                 };
 
                 _context.TblTasks.Add(newTask);
+
+                // Crear notificación para el usuario asignado si es diferente del creador
+                Console.WriteLine($"DEBUG CREATE: newTask.AsignedId: {newTask.AsignedId}, userId: {userId}");
+                if (newTask.AsignedId != userId)
+                {
+                    Console.WriteLine("DEBUG CREATE: Creating notification for assigned user");
+                    var creatorName = GetUserName(userId);
+                    var notification = new TblNotifications
+                    {
+                        UserId = newTask.AsignedId,
+                        TaskId = newTask.Id,
+                        Title = "Nueva tarea asignada",
+                        Message = $"Se te ha asignado la tarea '{newTask.Title}' por {creatorName}",
+                        Type = "task_assigned",
+                        Read = false,
+                        CreationDate = DateTime.Now,
+                        Active = true
+                    };
+                    _context.TblNotifications.Add(notification);
+                    Console.WriteLine($"DEBUG CREATE: Notification added to context - UserId: {newTask.AsignedId}, TaskId: {newTask.Id}");
+                }
+                else
+                {
+                    Console.WriteLine("DEBUG CREATE: No notification - user creating task for themselves");
+                }
+
                 await _context.SaveChangesAsync();
+                Console.WriteLine("DEBUG CREATE: SaveChangesAsync completed");
 
                 var taskDto = new TaskResponseDto
                 {
@@ -200,6 +227,10 @@ namespace Template_API.Services
                     };
                 }
 
+                // Guardar el usuario asignado anterior
+                var previousAssignedId = task.AsignedId;
+                var updaterName = GetUserName(userId);
+
                 task.Title = taskUpdate.Title;
                 task.Description = taskUpdate.Description;
                 task.StateId = taskUpdate.StateId;
@@ -212,7 +243,41 @@ namespace Template_API.Services
                 task.ModificationDate = DateTime.Now;
 
                 _context.TblTasks.Update(task);
+
+                // Crear notificaciones en la misma transacción
+                Console.WriteLine($"DEBUG: Checking notification conditions - previousAssignedId: {previousAssignedId}, task.AsignedId: {task.AsignedId}, userId: {userId}");
+                
+                // SIEMPRE crear notificación si el asignado es diferente al que actualiza
+                if (task.AsignedId != userId)
+                {
+                    Console.WriteLine("DEBUG: Creating notification for assigned user");
+                    var notificationType = (previousAssignedId != task.AsignedId) ? "task_assigned" : "task_updated";
+                    var notificationTitle = (previousAssignedId != task.AsignedId) ? "Tarea reasignada" : "Tarea actualizada";
+                    var notificationMessage = (previousAssignedId != task.AsignedId) 
+                        ? $"Se te ha reasignado la tarea '{task.Title}' por {updaterName}"
+                        : $"La tarea '{task.Title}' ha sido actualizada por {updaterName}";
+                    
+                    var notification = new TblNotifications
+                    {
+                        UserId = task.AsignedId,
+                        TaskId = task.Id,
+                        Title = notificationTitle,
+                        Message = notificationMessage,
+                        Type = notificationType,
+                        Read = false,
+                        CreationDate = DateTime.Now,
+                        Active = true
+                    };
+                    _context.TblNotifications.Add(notification);
+                    Console.WriteLine($"DEBUG: Notification added to context - UserId: {task.AsignedId}, TaskId: {task.Id}");
+                }
+                else
+                {
+                    Console.WriteLine("DEBUG: No notification created - user is updating their own task");
+                }
+
                 await _context.SaveChangesAsync();
+                Console.WriteLine("DEBUG: SaveChangesAsync completed");
 
                 var taskDto = new TaskResponseDto
                 {

@@ -25,6 +25,12 @@ public partial class ProjectTemplateScharpContext : DbContext
 
     public virtual DbSet<TblPriorities> TblPriorities { get; set; }
 
+    public virtual DbSet<TblComments> TblComments { get; set; }
+
+    public virtual DbSet<TblHistory> TblHistory { get; set; }
+
+    public virtual DbSet<TblNotifications> TblNotifications { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -153,6 +159,85 @@ public partial class ProjectTemplateScharpContext : DbContext
             entity.Property(e => e.Active)
                 .HasDefaultValue(true)
                 .HasColumnName("active");
+        });
+
+        modelBuilder.Entity<TblComments>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("tbl_comments_pkey");
+
+            entity.ToTable("tbl_comments");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.TaskId).HasColumnName("task_id");
+            entity.Property(e => e.Comment).HasColumnName("comment");
+            entity.Property(e => e.UserCreate).HasColumnName("usercreate");
+            entity.Property(e => e.UserMod).HasColumnName("usermod");
+            entity.Property(e => e.CreationDate)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("creation_date");
+            entity.Property(e => e.ModificationDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("modification_date");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("active");
+        });
+
+        modelBuilder.Entity<TblHistory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("tbl_history_pkey");
+
+            entity.ToTable("tbl_history");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.TaskId).HasColumnName("task_id");
+            entity.Property(e => e.Action).HasColumnName("action");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.CreationDate)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("creation_date");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("active");
+        });
+
+        modelBuilder.Entity<TblNotifications>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("tbl_notifications_pkey");
+
+            entity.ToTable("tbl_notifications");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.TaskId).HasColumnName("task_id");
+            entity.Property(e => e.Title).HasColumnName("title");
+            entity.Property(e => e.Message).HasColumnName("message");
+            entity.Property(e => e.Type).HasColumnName("type");
+            entity.Property(e => e.Read)
+                .HasDefaultValue(false)
+                .HasColumnName("read");
+            entity.Property(e => e.CreationDate)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("creation_date");
+            entity.Property(e => e.ModificationDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("modification_date");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("active");
+
+            entity.HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("fk_notifications_user");
+
+            entity.HasOne(d => d.Task)
+                .WithMany()
+                .HasForeignKey(d => d.TaskId)
+                .HasConstraintName("fk_notifications_task");
         });
 
         OnModelCreatingPartial(modelBuilder);
