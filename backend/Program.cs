@@ -24,7 +24,15 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<ProjectTemplateScharpContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("ProjectTemplateConnection");
+    var connectionString = builder.Configuration.GetConnectionString("ProjectTemplateConnection") 
+                          ?? builder.Configuration["DATABASE_URL"] 
+                          ?? Environment.GetEnvironmentVariable("DATABASE_URL");
+    
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new InvalidOperationException("Database connection string is not configured. Please set DATABASE_URL environment variable.");
+    }
+    
     options.UseNpgsql(connectionString, npgsqlOptions =>
     {
         npgsqlOptions.EnableRetryOnFailure(
@@ -40,7 +48,12 @@ builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
 // JWT Authentication
-var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
+var jwtKey = builder.Configuration["Jwt:Key"] ?? builder.Configuration["JWT_KEY"] ?? "DefaultJwtSecretKeyForDevelopmentPurposesOnly2024!";
+if (string.IsNullOrEmpty(jwtKey))
+{
+    throw new InvalidOperationException("JWT Key is not configured. Please set Jwt:Key in appsettings.json or JWT_KEY environment variable.");
+}
+var key = Encoding.UTF8.GetBytes(jwtKey);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -49,8 +62,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? builder.Configuration["JWT_ISSUER"] ?? "TemplateAPI",
+            ValidAudience = builder.Configuration["Jwt:Audience"] ?? builder.Configuration["JWT_AUDIENCE"] ?? "TemplateAPI",
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
