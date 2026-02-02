@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -9,6 +10,7 @@ module.exports = {
         publicPath: '/', 
         clean: true
     },
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -44,7 +46,24 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: '../css/styles.css'
+        }),
+        new webpack.ProvidePlugin({
+            React: 'react'
         })
     ],
+    devServer: {
+        port: 3000,
+        static: {
+            directory: path.join(__dirname, 'public'),
+        },
+        historyApiFallback: true,
+        proxy: [{
+            context: ['/api'],
+            target: 'http://localhost:5095',
+            secure: false,
+            changeOrigin: true
+        }],
+        open: false
+    },
     mode: 'development'
 };

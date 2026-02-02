@@ -24,7 +24,7 @@ namespace Template_API.Controllers
 
                 return Ok(new Response
                 {
-                    IsSuccess = true,
+                    Success = true,
                     Message = "Users retrieved successfully.",
                     Data = users
                 });
@@ -32,7 +32,7 @@ namespace Template_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response
                 {
-                    IsSuccess = false,
+                    Success = false,
                     Message = ex.Message,
                     Data = null
                 });
