@@ -46,6 +46,7 @@ builder.Services.AddDbContext<ProjectTemplateScharpContext>(options =>
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 // JWT Authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? builder.Configuration["JWT_KEY"] ?? "DefaultJwtSecretKeyForDevelopmentPurposesOnly2024!";

@@ -25,6 +25,8 @@ public partial class ProjectTemplateScharpContext : DbContext
 
     public virtual DbSet<TblPriorities> TblPriorities { get; set; }
 
+    public virtual DbSet<TblComments> TblComments { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -150,6 +152,29 @@ public partial class ProjectTemplateScharpContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("creation_date");
+            entity.Property(e => e.Active)
+                .HasDefaultValue(true)
+                .HasColumnName("active");
+        });
+
+        modelBuilder.Entity<TblComments>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("tbl_comments_pkey");
+
+            entity.ToTable("tbl_comments");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.TaskId).HasColumnName("task_id");
+            entity.Property(e => e.Comment).HasColumnName("comment");
+            entity.Property(e => e.UserCreate).HasColumnName("usercreate");
+            entity.Property(e => e.UserMod).HasColumnName("usermod");
+            entity.Property(e => e.CreationDate)
+                .HasDefaultValueSql("now()")
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("creation_date");
+            entity.Property(e => e.ModificationDate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("modification_date");
             entity.Property(e => e.Active)
                 .HasDefaultValue(true)
                 .HasColumnName("active");
