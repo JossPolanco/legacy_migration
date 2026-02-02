@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import useHistoryLogger from '../hooks/useHistoryLogger';
 
 const CommentManager = () => {
   const [taskId, setTaskId] = useState('');
@@ -10,6 +11,7 @@ const CommentManager = () => {
   const [showAllComments, setShowAllComments] = useState(false);
   
   const { token } = useAuth();
+  const { logHistoryEvent } = useHistoryLogger(token);
 
   // API request helper
   const apiRequest = async (url, options = {}) => {
@@ -112,6 +114,11 @@ const CommentManager = () => {
       });
 
       if (response.success) {
+        await logHistoryEvent(
+          parseInt(taskId.trim(), 10),
+          'COMMENTED',
+          `Comentario agregado: "${comment.trim().substring(0, 100)}${comment.trim().length > 100 ? '...' : ''}"`
+        );
         setComment('');
         setError('');
         // Reload comments for the current task

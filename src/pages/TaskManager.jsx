@@ -3,6 +3,7 @@ import TaskForm from '../components/TaskForm';
 import TaskList from '../components/TaskList';
 import TaskStatistics from '../components/TaskStatistics';
 import { useAuth } from '../context/AuthContext';
+import useHistoryLogger from '../hooks/useHistoryLogger';
 
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
@@ -16,6 +17,7 @@ const TaskManager = () => {
   const [error, setError] = useState(null);
   
   const { token } = useAuth();
+  const { logHistoryEvent } = useHistoryLogger(token);
 
   const apiRequest = async (url, options = {}) => {
     try {
@@ -139,6 +141,19 @@ const TaskManager = () => {
       });
 
       if (response.success) {
+        // Registrar evento de historial
+        const newTaskId = response.data?.id;
+        console.log('Nueva tarea creada con ID:', newTaskId);
+        
+        if (newTaskId) {
+          await logHistoryEvent(
+            newTaskId,
+            'CREATED',
+            `Tarea creada: "${taskData.title}"`
+          );
+        }
+        
+        // Recargar datos
         await loadTasks();
         await loadStatistics();
         setSelectedTask(null);
@@ -154,12 +169,48 @@ const TaskManager = () => {
 
   const handleTaskUpdate = async (taskData) => {
     try {
+      const oldTask = tasks.find(t => t.id === taskData.id);
+      const changes = [];
+
+      if (oldTask && oldTask.title !== taskData.title) {
+        changes.push(`Título: "${oldTask.title}" → "${taskData.title}"`);
+      }
+      if (oldTask && oldTask.description !== taskData.description) {
+        changes.push(`Descripción modificada`);
+      }
+      if (oldTask && oldTask.stateId !== taskData.stateId) {
+        const oldState = states.find(s => s.id === oldTask.stateId)?.name || 'desconocido';
+        const newState = states.find(s => s.id === taskData.stateId)?.name || 'desconocido';
+        changes.push(`Estado: "${oldState}" → "${newState}"`);
+      }
+      if (oldTask && oldTask.priorityId !== taskData.priorityId) {
+        const oldPriority = priorities.find(p => p.id === oldTask.priorityId)?.name || 'desconocida';
+        const newPriority = priorities.find(p => p.id === taskData.priorityId)?.name || 'desconocida';
+        changes.push(`Prioridad: "${oldPriority}" → "${newPriority}"`);
+      }
+      if (oldTask && oldTask.asignedId !== taskData.asignedId) {
+        const oldUser = users.find(u => u.id === oldTask.asignedId)?.username || 'sin asignar';
+        const newUser = users.find(u => u.id === taskData.asignedId)?.username || 'sin asignar';
+        changes.push(`Asignado a: "${oldUser}" → "${newUser}"`);
+      }
+
       const response = await apiRequest('/tasks', {
         method: 'PUT',
         body: JSON.stringify(taskData)
       });
 
       if (response.success) {
+        // Registrar evento de historial PRIMERO
+        if (changes.length > 0) {
+          console.log('Registrando evento de historial para tarea', taskData.id);
+          await logHistoryEvent(
+            taskData.id,
+            'UPDATED',
+            `Cambios realizados:\n${changes.join('\n')}`
+          );
+        }
+        
+        // Luego recargar datos
         await loadTasks();
         await loadStatistics();
         setSelectedTask(null);
@@ -176,11 +227,21 @@ const TaskManager = () => {
   const handleTaskDelete = async (taskId) => {
     if (window.confirm('¿Está seguro de que desea eliminar esta tarea?')) {
       try {
+        const taskToDelete = tasks.find(t => t.id === taskId);
         const response = await apiRequest(`/tasks/${taskId}`, {
           method: 'DELETE'
         });
 
         if (response.success) {
+          // Registrar evento de historial ANTES de recargar
+          if (taskToDelete) {
+            await logHistoryEvent(
+              taskId,
+              'DELETED',
+              `Tarea eliminada: "${taskToDelete.title}"`
+            );
+          }
+          
           await loadTasks();
           await loadStatistics();
           setSelectedTask(null);

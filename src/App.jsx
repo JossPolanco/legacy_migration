@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import TaskManager from './pages/TaskManager'
 import ProjectManager from './pages/ProjectManager'
 import CommentManager from './pages/CommentManager'
+import HistoryManager from './pages/HistoryManager'
 
 export default function App() {
     return (
@@ -18,7 +19,7 @@ export default function App() {
                     <Route path="task" element={<TaskManager />} />
                     <Route path="projects" element={<ProjectManager />} />
                     <Route path="comments" element={<CommentManager />} />
-                    <Route path="historial" element={<div>History Page</div>} />
+                    <Route path="historial" element={<HistoryManager />} />
                     <Route path="notificaciones" element={<div>Notificaciones Page</div>} />
                     <Route path="busqueda" element={<div>Búsqueda Page</div>} />
                     <Route path="reportes" element={<div>Reportes Page</div>} />
