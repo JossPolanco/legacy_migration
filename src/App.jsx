@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login'
 import Layout from './components/Layout'
 import TaskManager from './pages/TaskManager'
+import ProjectManager from './pages/ProjectManager'
 
 export default function App() {
     return (
@@ -14,7 +15,7 @@ export default function App() {
                 <Route path="/app" element={<Layout />}>
                     <Route index element={<Navigate to="/app/task" replace />} />
                     <Route path="task" element={<TaskManager />} />
-                    <Route path="projects" element={<div>Projects Page</div>} />
+                    <Route path="projects" element={<ProjectManager />} />
                     <Route path="comments" element={<div>Comments Page</div>} />
                     <Route path="historial" element={<div>History Page</div>} />
                     <Route path="notificaciones" element={<div>Notificaciones Page</div>} />

@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import NavigationBar from './NavigationBar'
 
 const Layout = () => {
-    const { user, loading } = useAuth()
+    const { user, token, loading } = useAuth()
 
     if (loading) {
         return (
@@ -14,7 +14,7 @@ const Layout = () => {
         )
     }
 
-    if (!user) {
+    if (!user || !token) {
         return <Navigate to="/login" replace />
     }
 

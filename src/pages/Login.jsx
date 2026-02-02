@@ -3,19 +3,19 @@ import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
-    const { user, login, loading } = useAuth()
+    const { user, token, login, loading } = useAuth()
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [submitting, setSubmitting] = useState(false)
     const [error, setError] = useState(null)
 
-    // Redirect if already logged in
+    // Redirect if already logged in with valid token
     useEffect(() => {
-        if (user && !loading) {
+        if (user && token && !loading) {
             navigate('/app', { replace: true })
         }
-    }, [user, loading, navigate])
+    }, [user, token, loading, navigate])
 
     const handleSubmit = async (e) => {
         e.preventDefault()

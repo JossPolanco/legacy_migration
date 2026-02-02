@@ -18,13 +18,20 @@ export function AuthProvider({ children }) {
       const raw = localStorage.getItem('auth')
       if (raw) {
         const saved = JSON.parse(raw)
-        if (saved && typeof saved === 'object') {
-          setUser(saved.user || saved)
-          setToken(saved.token || null)
+        if (saved && typeof saved === 'object' && saved.token && saved.user) {
+          // Verify that both user and token exist
+          setUser(saved.user)
+          setToken(saved.token)
+        } else {
+          // Clear invalid data
+          localStorage.removeItem('auth')
         }
       }
     } catch (_) {
-      // ignore localStorage errors
+      // Clear corrupted data
+      try {
+        localStorage.removeItem('auth')
+      } catch (_) {}
     } finally {
       setLoading(false)
     }
