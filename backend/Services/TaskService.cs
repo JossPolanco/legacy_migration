@@ -423,5 +423,106 @@ namespace Template_API.Services
             var user = _context.TblUsers.FirstOrDefault(u => u.Id == userId);
             return user?.Username ?? "Sin asignar";
         }
+
+        public async Task<Response<List<dynamic>>> GetTasksByStateAsync()
+        {
+            try
+            {
+                var report = await (from t in _context.TblTasks
+                                   join s in _context.TblStates on t.StateId equals s.Id
+                                   where t.Active == true
+                                   group t by new { s.Id, s.Name } into g
+                                   orderby g.Key.Name
+                                   select new
+                                   {
+                                       Name = g.Key.Name,
+                                       Count = g.Count()
+                                   }).ToListAsync();
+
+                var result = report.Cast<dynamic>().ToList();
+
+                return new Response<List<dynamic>>
+                {
+                    Success = true,
+                    Message = "Reporte de tareas por estado obtenido exitosamente",
+                    Data = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<dynamic>>
+                {
+                    Success = false,
+                    Message = $"Error al obtener reporte de tareas: {ex.Message}",
+                    Data = new List<dynamic>()
+                };
+            }
+        }
+
+        public async Task<Response<List<dynamic>>> GetTasksByProjectAsync()
+        {
+            try
+            {
+                var report = await (from t in _context.TblTasks
+                                   join p in _context.TblProjects on t.ProjectId equals p.Id
+                                   where t.Active == true
+                                   group t by new { p.Id, p.Name } into g
+                                   orderby g.Key.Name
+                                   select new
+                                   {
+                                       Name = g.Key.Name,
+                                       Count = g.Count()
+                                   }).ToListAsync();
+
+                return new Response<List<dynamic>>
+                {
+                    Success = true,
+                    Message = "Reporte de tareas por proyecto obtenido exitosamente",
+                    Data = report.Cast<dynamic>().ToList()
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<dynamic>>
+                {
+                    Success = false,
+                    Message = $"Error al obtener reporte de proyectos: {ex.Message}",
+                    Data = new List<dynamic>()
+                };
+            }
+        }
+
+        public async Task<Response<List<dynamic>>> GetTasksByUserAsync()
+        {
+            try
+            {
+                var report = await (from t in _context.TblTasks
+                                   join u in _context.TblUsers on t.AsignedId equals u.Id
+                                   where t.Active == true
+                                   group t by new { u.Id, u.Username } into g
+                                   orderby g.Key.Username
+                                   select new
+                                   {
+                                       Name = g.Key.Username,
+                                       Count = g.Count()
+                                   }).ToListAsync();
+
+                return new Response<List<dynamic>>
+                {
+                    Success = true,
+                    Message = "Reporte de tareas por usuario obtenido exitosamente",
+                    Data = report.Cast<dynamic>().ToList()
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<dynamic>>
+                {
+                    Success = false,
+                    Message = $"Error al obtener reporte de usuarios: {ex.Message}",
+                    Data = new List<dynamic>()
+                };
+            }
+        }
     }
 }

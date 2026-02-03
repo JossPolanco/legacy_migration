@@ -11,5 +11,8 @@ namespace Template_API.Interfaces
         Task<Response<TaskResponseDto>> UpdateTaskAsync(TaskUpdateDto taskUpdate, int userId);
         Task<Response<bool>> DeleteTaskAsync(int id, int userId);
         Task<Response<TaskStatisticsDto>> GetTaskStatisticsAsync();
+        Task<Response<List<dynamic>>> GetTasksByStateAsync();
+        Task<Response<List<dynamic>>> GetTasksByProjectAsync();
+        Task<Response<List<dynamic>>> GetTasksByUserAsync();
     }
 }

@@ -239,5 +239,44 @@ namespace Template_API.Controllers
                 });
             }
         }
+
+        [HttpGet("report/by-state")]
+        public async Task<IActionResult> GetTasksByState()
+        {
+            var result = await _taskService.GetTasksByStateAsync();
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("report/by-project")]
+        public async Task<IActionResult> GetTasksByProject()
+        {
+            var result = await _taskService.GetTasksByProjectAsync();
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("report/by-user")]
+        public async Task<IActionResult> GetTasksByUser()
+        {
+            var result = await _taskService.GetTasksByUserAsync();
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }
