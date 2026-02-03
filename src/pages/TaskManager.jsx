@@ -15,9 +15,16 @@ const TaskManager = () => {
   const [statistics, setStatistics] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [actionLoading, setActionLoading] = useState(false);
+  const [notification, setNotification] = useState(null);
   
   const { token } = useAuth();
   const { logHistoryEvent } = useHistoryLogger(token);
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   const apiRequest = async (url, options = {}) => {
     try {
@@ -134,6 +141,7 @@ const TaskManager = () => {
   };
 
   const handleTaskCreate = async (taskData) => {
+    setActionLoading(true);
     try {
       const response = await apiRequest('/tasks', {
         method: 'POST',
@@ -157,17 +165,20 @@ const TaskManager = () => {
         await loadTasks();
         await loadStatistics();
         setSelectedTask(null);
-        alert('Tarea creada exitosamente');
+        showNotification('Tarea creada exitosamente', 'success');
       } else {
-        alert(response.message || 'Error al crear la tarea');
+        showNotification(response.message || 'Error al crear la tarea', 'error');
       }
     } catch (error) {
       console.error('Error creating task:', error);
-      alert('Error al crear la tarea');
+      showNotification('Error al crear la tarea', 'error');
+    } finally {
+      setActionLoading(false);
     }
   };
 
   const handleTaskUpdate = async (taskData) => {
+    setActionLoading(true);
     try {
       const oldTask = tasks.find(t => t.id === taskData.id);
       const changes = [];
@@ -214,18 +225,21 @@ const TaskManager = () => {
         await loadTasks();
         await loadStatistics();
         setSelectedTask(null);
-        alert('Tarea actualizada exitosamente');
+        showNotification('Tarea actualizada exitosamente', 'success');
       } else {
-        alert(response.message || 'Error al actualizar la tarea');
+        showNotification(response.message || 'Error al actualizar la tarea', 'error');
       }
     } catch (error) {
       console.error('Error updating task:', error);
-      alert('Error al actualizar la tarea');
+      showNotification('Error al actualizar la tarea', 'error');
+    } finally {
+      setActionLoading(false);
     }
   };
 
   const handleTaskDelete = async (taskId) => {
     if (window.confirm('¿Está seguro de que desea eliminar esta tarea?')) {
+      setActionLoading(true);
       try {
         const taskToDelete = tasks.find(t => t.id === taskId);
         const response = await apiRequest(`/tasks/${taskId}`, {
@@ -245,13 +259,15 @@ const TaskManager = () => {
           await loadTasks();
           await loadStatistics();
           setSelectedTask(null);
-          alert('Tarea eliminada exitosamente');
+          showNotification('Tarea eliminada exitosamente', 'success');
         } else {
-          alert(response.message || 'Error al eliminar la tarea');
+          showNotification(response.message || 'Error al eliminar la tarea', 'error');
         }
       } catch (error) {
         console.error('Error deleting task:', error);
-        alert('Error al eliminar la tarea');
+        showNotification('Error al eliminar la tarea', 'error');
+      } finally {
+        setActionLoading(false);
       }
     }
   };
@@ -280,6 +296,35 @@ const TaskManager = () => {
     <div className="bg-white rounded-lg p-6 shadow-md">
       <h2 className="text-2xl mb-6 text-slate-800">Gestión de Tareas</h2>
 
+      {/* Notificación Toast */}
+      {notification && (
+        <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transition-all duration-300 ${
+          notification.type === 'success' 
+            ? 'bg-green-500 text-white' 
+            : 'bg-red-500 text-white'
+        }`}>
+          <div className="flex items-center gap-3">
+            {notification.type === 'success' ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            )}
+            <span className="font-medium">{notification.message}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Barra de progreso superior */}
+      {actionLoading && (
+        <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-blue-200">
+          <div className="h-full bg-linear-to-r from-blue-500 to-blue-600 animate-pulse"></div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-6 mb-6">
         <div>
           <h3 className="text-lg mb-4 text-slate-700 border-b-2 border-gray-200 pb-2">Nueva/Editar Tarea</h3>
@@ -292,6 +337,7 @@ const TaskManager = () => {
             onSubmit={selectedTask ? handleTaskUpdate : handleTaskCreate}
             onDelete={selectedTask?.id ? () => handleTaskDelete(selectedTask.id) : undefined}
             onClear={handleClear}
+            disabled={actionLoading}
           />
         </div>
 

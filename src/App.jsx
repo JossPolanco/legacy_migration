@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Layout from './components/Layout'
@@ -11,6 +11,10 @@ import SearchManager from './pages/SearchManager'
 import ReportManager from './pages/ReportManager'
 
 export default function App() {
+    useEffect(() => {
+        document.title = 'Task Manager';
+    }, []);
+
     return (
         <Router>
             

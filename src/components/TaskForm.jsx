@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelete, onClear }) => {
+const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelete, onClear, disabled }) => {
   const [formData, setFormData] = React.useState({
     title: '',
     description: '',
@@ -72,7 +72,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           value={formData.title}
           onChange={handleChange}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={disabled}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
           placeholder="Ingrese el título de la tarea"
         />
       </div>
@@ -86,7 +87,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           value={formData.description}
           onChange={handleChange}
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={disabled}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
           placeholder="Ingrese la descripción"
         />
       </div>
@@ -99,7 +101,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           name="stateId"
           value={formData.stateId}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={disabled}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
         >
           {states.map(state => (
             <option key={state.id} value={state.id}>
@@ -117,7 +120,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           name="priorityId"
           value={formData.priorityId}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={disabled}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
         >
           {priorities.map(priority => (
             <option key={priority.id} value={priority.id}>
@@ -135,7 +139,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           name="projectId"
           value={formData.projectId}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={disabled}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
         >
           {projects.map(project => (
             <option key={project.id} value={project.id}>
@@ -153,7 +158,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           name="asignedId"
           value={formData.asignedId}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={disabled}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
         >
           <option value={0}>Sin asignar</option>
           {users.map(user => (
@@ -174,7 +180,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           value={formData.expirationDate}
           onChange={handleChange}
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={disabled}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
         />
       </div>
 
@@ -188,15 +195,23 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           value={formData.estimatedHours}
           onChange={handleChange}
           min="0"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={disabled}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
         />
       </div>
 
       <div className="flex gap-2 pt-4">
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
+          disabled={disabled}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200 disabled:bg-blue-300 disabled:cursor-not-allowed flex items-center gap-2"
         >
+          {disabled && (
+            <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          )}
           {task?.id ? 'Actualizar' : 'Agregar'}
         </button>
         
@@ -204,7 +219,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           <button
             type="button"
             onClick={onDelete}
-            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
+            disabled={disabled}
+            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200 disabled:bg-red-300 disabled:cursor-not-allowed"
           >
             Eliminar
           </button>
@@ -213,7 +229,8 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
         <button
           type="button"
           onClick={onClear}
-          className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-200"
+          disabled={disabled}
+          className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Limpiar
         </button>
