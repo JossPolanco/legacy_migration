@@ -43,7 +43,7 @@ namespace Template_API.Services
                 {
                     Success = true,
                     Data = comments,
-                    Message = $"Se encontraron {comments.Count} comentarios para la tarea {taskId}"
+                    Message = $"Found {comments.Count} comments for task {taskId}"
                 };
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace Template_API.Services
                 {
                     Success = true,
                     Data = comments,
-                    Message = $"Se encontraron {comments.Count} comentarios en total"
+                    Message = $"Found {comments.Count} total comments"
                 };
             }
             catch (Exception ex)
@@ -112,7 +112,7 @@ namespace Template_API.Services
                     {
                         Success = false,
                         Data = null,
-                        Message = "La tarea especificada no existe o no está activa"
+                        Message = "The specified task does not exist or is not active"
                     };
                 }
 
@@ -140,12 +140,12 @@ namespace Template_API.Services
                         TaskId = c.TaskId,
                         Comment = c.Comment,
                         UserCreate = c.UserCreate,
-                        UserCreateName = c.UserCreateNavigation!.Username ?? "Usuario Desconocido",
+                        UserCreateName = c.UserCreateNavigation!.Username ?? "Unknown User",
                         UserMod = c.UserMod,
                         UserModName = null,
                         CreationDate = c.CreationDate,
                         ModificationDate = c.ModificationDate,
-                        TaskTitle = c.Task!.Title ?? "Tarea Sin Título"
+                        TaskTitle = c.Task!.Title ?? "Task Without Title"
                     })
                     .FirstAsync();
 
@@ -153,7 +153,7 @@ namespace Template_API.Services
                 {
                     Success = true,
                     Data = createdComment,
-                    Message = "Comentario creado exitosamente"
+                    Message = "Comment created successfully"
                 };
             }
             catch (Exception ex)
@@ -162,7 +162,7 @@ namespace Template_API.Services
                 {
                     Success = false,
                     Data = null,
-                    Message = $"Error al crear comentario: {ex.Message}"
+                    Message = $"Error creating comment: {ex.Message}"
                 };
             }
         }

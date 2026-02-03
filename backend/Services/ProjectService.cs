@@ -159,7 +159,7 @@ namespace Template_API.Services
                     return new Response<ProjectResponseDto>
                     {
                         Success = false,
-                        Message = "Proyecto no encontrado",
+                        Message = "Project not found",
                         Data = null
                     };
                 }
@@ -214,7 +214,7 @@ namespace Template_API.Services
                     return new Response<bool>
                     {
                         Success = false,
-                        Message = "Proyecto no encontrado",
+                        Message = "Project not found",
                         Data = false
                     };
                 }

@@ -125,7 +125,7 @@ namespace Template_API.Services
                 return new Response<NotificationResponseDto>
                 {
                     Success = true,
-                    Message = "Notificación creada exitosamente",
+                    Message = "Notification created successfully",
                     Data = createdNotification
                 };
             }
@@ -159,7 +159,7 @@ namespace Template_API.Services
                 return new Response<bool>
                 {
                     Success = true,
-                    Message = "Notificaciones marcadas como leídas",
+                    Message = "Notifications marked as read",
                     Data = true
                 };
             }
@@ -186,7 +186,7 @@ namespace Template_API.Services
                     return new Response<bool>
                     {
                         Success = false,
-                        Message = "Notificación no encontrada",
+                        Message = "Notification not found",
                         Data = false
                     };
                 }
@@ -198,7 +198,7 @@ namespace Template_API.Services
                 return new Response<bool>
                 {
                     Success = true,
-                    Message = "Notificación marcada como leída",
+                    Message = "Notification marked as read",
                     Data = true
                 };
             }
@@ -223,7 +223,7 @@ namespace Template_API.Services
                 return new Response<int>
                 {
                     Success = true,
-                    Message = "Conteo de notificaciones no leídas obtenido",
+                    Message = "Unread notification count obtained",
                     Data = count
                 };
             }

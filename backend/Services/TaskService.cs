@@ -152,8 +152,8 @@ namespace Template_API.Services
                     {
                         UserId = newTask.AsignedId,
                         TaskId = newTask.Id,
-                        Title = "Nueva tarea asignada",
-                        Message = $"Se te ha asignado la tarea '{newTask.Title}' por {creatorName}",
+                        Title = "New task assigned",
+                        Message = $"You have been assigned the task '{newTask.Title}' by {creatorName}",
                         Type = "task_assigned",
                         Read = false,
                         CreationDate = DateTime.Now,
@@ -252,10 +252,10 @@ namespace Template_API.Services
                 {
                     Console.WriteLine("DEBUG: Creating notification for assigned user");
                     var notificationType = (previousAssignedId != task.AsignedId) ? "task_assigned" : "task_updated";
-                    var notificationTitle = (previousAssignedId != task.AsignedId) ? "Tarea reasignada" : "Tarea actualizada";
+                    var notificationTitle = (previousAssignedId != task.AsignedId) ? "Task reassigned" : "Task updated";
                     var notificationMessage = (previousAssignedId != task.AsignedId) 
-                        ? $"Se te ha reasignado la tarea '{task.Title}' por {updaterName}"
-                        : $"La tarea '{task.Title}' ha sido actualizada por {updaterName}";
+                        ? $"You have been reassigned the task '{task.Title}' by {updaterName}"
+                        : $"The task '{task.Title}' has been updated by {updaterName}";
                     
                     var notification = new TblNotifications
                     {
