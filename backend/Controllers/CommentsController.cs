@@ -37,13 +37,13 @@ namespace Template_API.Controllers
         {
             if (string.IsNullOrWhiteSpace(commentDto.Comment))
             {
-                return BadRequest(new { Success = false, Message = "El comentario es requerido" });
+                return BadRequest(new { Success = false, Message = "Comment is required" });
             }
 
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!int.TryParse(userIdClaim, out int userId))
             {
-                return Unauthorized(new { Success = false, Message = "Usuario no autenticado" });
+                return Unauthorized(new { Success = false, Message = "User not authenticated" });
             }
 
             var response = await _commentService.CreateCommentAsync(commentDto, userId);

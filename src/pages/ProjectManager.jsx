@@ -83,10 +83,10 @@ const ProjectManager = () => {
         resetForm();
         setError('');
       } else {
-        setError(response.message || 'Error al agregar proyecto');
+        setError(response.message || 'Error adding project');
       }
     } catch (error) {
-      setError('Error al agregar proyecto');
+      setError('Error adding project');
       console.error('Error adding project:', error);
     } finally {
       setLoading(false);
@@ -96,7 +96,7 @@ const ProjectManager = () => {
   // Handle form submission for updating project
   const handleSubmitUpdate = async () => {
     if (!selectedId) {
-      setError('Selecciona un proyecto para actualizar');
+      setError('Select a project to update');
       return;
     }
 
@@ -123,10 +123,10 @@ const ProjectManager = () => {
         resetForm();
         setError('');
       } else {
-        setError(response.message || 'Error al actualizar proyecto');
+        setError(response.message || 'Error updating project');
       }
     } catch (error) {
-      setError('Error al actualizar proyecto');
+      setError('Error updating project');
       console.error('Error updating project:', error);
     } finally {
       setLoading(false);
@@ -136,11 +136,11 @@ const ProjectManager = () => {
   // Handle project deletion (soft delete)
   const handleDelete = async () => {
     if (!selectedId) {
-      setError('Selecciona un proyecto para eliminar');
+      setError('Select a project to delete');
       return;
     }
 
-    if (window.confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
+    if (window.confirm('Are you sure you want to delete this project?')) {
       try {
         setLoading(true);
         setError('');
@@ -154,10 +154,10 @@ const ProjectManager = () => {
           resetForm();
           setError('');
         } else {
-          setError(response.message || 'Error al eliminar proyecto');
+          setError(response.message || 'Error deleting project');
         }
       } catch (error) {
-        setError('Error al eliminar proyecto');
+        setError('Error deleting project');
         console.error('Error deleting project:', error);
       } finally {
         setLoading(false);
@@ -192,12 +192,12 @@ const ProjectManager = () => {
   };
 
   if (!token) {
-    return <div className="text-center py-10 text-gray-500 text-lg">Debe iniciar sesión para ver esta página</div>;
+    return <div className="text-center py-10 text-gray-500 text-lg">You must log in to view this page</div>;
   }
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-md">
-      <h2 className="text-2xl mb-4 text-slate-800">Gestión de Proyectos</h2>
+      <h2 className="text-2xl mb-4 text-slate-800">Project Management</h2>
 
       {error && (
         <div className="mb-4 rounded border border-red-300 bg-red-50 px-4 py-2 text-red-700">
@@ -206,10 +206,10 @@ const ProjectManager = () => {
       )}
 
       <div className="mb-6">
-        <label className="block text-sm font-medium text-slate-700">Nombre</label>
+        <label className="block text-sm font-medium text-slate-700">Name</label>
         <input
           className="mt-1 w-full rounded border border-slate-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          placeholder="Nombre del proyecto"
+          placeholder="Project name"
           value={nombre}
           onChange={e => setNombre(e.target.value)}
           disabled={loading}
@@ -217,11 +217,11 @@ const ProjectManager = () => {
       </div>
 
       <div className="mb-6">
-        <label className="block text-sm font-medium text-slate-700">Descripción</label>
+        <label className="block text-sm font-medium text-slate-700">Description</label>
         <textarea
           className="mt-1 w-full rounded border border-slate-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           rows={4}
-          placeholder="Descripción del proyecto"
+          placeholder="Project description"
           value={descripcion}
           onChange={e => setDescripcion(e.target.value)}
           disabled={loading}
@@ -234,28 +234,28 @@ const ProjectManager = () => {
           disabled={loading}
           onClick={handleSubmitAdd}
         >
-          {loading ? 'Procesando...' : 'Agregar'}
+          {loading ? 'Processing...' : 'Add'}
         </button>
         <button
           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-500 disabled:opacity-50 transition duration-200"
           disabled={loading || !selectedId}
           onClick={handleSubmitUpdate}
         >
-          {loading ? 'Procesando...' : 'Actualizar'}
+          {loading ? 'Processing...' : 'Update'}
         </button>
         <button
           className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-500 disabled:opacity-50 transition duration-200"
           disabled={loading || !selectedId}
           onClick={handleDelete}
         >
-          {loading ? 'Procesando...' : 'Eliminar'}
+          {loading ? 'Processing...' : 'Delete'}
         </button>
         <button
           className="rounded border border-slate-300 px-4 py-2 text-slate-700 hover:bg-slate-50 transition duration-200"
           onClick={resetForm}
           disabled={loading}
         >
-          Limpiar
+          Clear
         </button>
       </div>
 
@@ -264,23 +264,23 @@ const ProjectManager = () => {
           <thead className="bg-slate-50">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">ID</th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">Nombre</th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">Descripción</th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">Creado</th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">Activo</th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">Name</th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">Description</th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">Created</th>
+              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-600">Active</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-200 bg-white">
             {loading && projects.length === 0 ? (
               <tr>
                 <td className="px-4 py-6 text-center text-sm text-slate-500" colSpan={5}>
-                  Cargando proyectos...
+                  Loading projects...
                 </td>
               </tr>
             ) : projects.length === 0 ? (
               <tr>
                 <td className="px-4 py-6 text-center text-sm text-slate-500" colSpan={5}>
-                  No hay proyectos aún.
+                  No projects yet.
                 </td>
               </tr>
             ) : (
@@ -304,7 +304,7 @@ const ProjectManager = () => {
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                       p.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                     }`}>
-                      {p.active ? 'Sí' : 'No'}
+                      {p.active ? 'Yes' : 'No'}
                     </span>
                   </td>
                 </tr>

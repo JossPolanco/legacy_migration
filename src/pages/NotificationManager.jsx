@@ -46,7 +46,7 @@ const NotificationManager = () => {
         setError(response.message || 'Error al cargar notificaciones');
       }
     } catch (error) {
-      setError('Error de conexión al cargar notificaciones');
+      setError('Connection error loading notifications');
       console.error('Error loading notifications:', error);
     } finally {
       setLoading(false);
@@ -71,10 +71,10 @@ const NotificationManager = () => {
         );
         setUnreadCount(0);
       } else {
-        setError(response.message || 'Error al marcar notificaciones como leídas');
+        setError(response.message || 'Error marking notifications as read');
       }
     } catch (error) {
-      setError('Error de conexión al marcar notificaciones');
+      setError('Connection error marking notifications');
       console.error('Error marking notifications as read:', error);
     }
   };
@@ -152,10 +152,10 @@ const NotificationManager = () => {
     <div className="p-6 max-w-6xl mx-auto">
       <div className="bg-white rounded-lg shadow-md">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800">Notificaciones</h2>
+          <h2 className="text-xl font-semibold text-gray-800">Notifications</h2>
           {unreadCount > 0 && (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 ml-2">
-              {unreadCount} sin leer
+              {unreadCount} unread
             </span>
           )}
         </div>
@@ -167,7 +167,7 @@ const NotificationManager = () => {
               disabled={loading}
               className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Cargando...' : 'Cargar Notificaciones'}
+              {loading ? 'Loading...' : 'Load Notifications'}
             </button>
             
             <button
@@ -175,7 +175,7 @@ const NotificationManager = () => {
               disabled={loading || notifications.length === 0}
               className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Marcar como Leídas
+              Mark as Read
             </button>
           </div>
 
@@ -187,14 +187,14 @@ const NotificationManager = () => {
 
           <div className="border rounded-md">
             <div className="bg-gray-50 px-4 py-2 border-b">
-              <h3 className="text-sm font-medium text-gray-700">NOTIFICACIONES</h3>
+              <h3 className="text-sm font-medium text-gray-700">NOTIFICATIONS</h3>
             </div>
             
             <div className="max-h-96 overflow-y-auto">
               {notifications.length === 0 ? (
                 <div className="p-8 text-center text-gray-500">
-                  <p>No hay notificaciones para mostrar.</p>
-                  <p className="text-sm mt-2">Haz clic en "Cargar Notificaciones" para obtener las últimas actualizaciones.</p>
+                  <p>No notifications to display.</p>
+                  <p className="text-sm mt-2">Click "Load Notifications" to get the latest updates.</p>
                 </div>
               ) : (
                 <div className="divide-y divide-gray-200">
@@ -212,7 +212,7 @@ const NotificationManager = () => {
                             <span className="font-medium text-gray-900">{notification.title}</span>
                             {!notification.read && (
                               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                Nuevo
+                                New
                               </span>
                             )}
                           </div>
@@ -222,7 +222,7 @@ const NotificationManager = () => {
                           </p>
                           
                           <div className="flex items-center gap-4 text-xs text-gray-500">
-                            <span>Tarea: {notification.taskTitle}</span>
+                            <span>Task: {notification.taskTitle}</span>
                             <span>•</span>
                             <span>{formatDate(notification.creationDate)}</span>
                           </div>
@@ -233,7 +233,7 @@ const NotificationManager = () => {
                             onClick={() => markAsRead(notification.id)}
                             className="ml-4 text-xs text-blue-600 hover:text-blue-800 focus:outline-none"
                           >
-                            Marcar leída
+                            Mark read
                           </button>
                         )}
                       </div>

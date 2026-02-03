@@ -38,7 +38,7 @@ namespace Template_API.Services
                 return new Response<List<ProjectResponseDto>>
                 {
                     Success = true,
-                    Message = "Proyectos obtenidos exitosamente",
+                    Message = "Projects retrieved successfully",
                     Data = projectDtos
                 };
             }
@@ -47,7 +47,7 @@ namespace Template_API.Services
                 return new Response<List<ProjectResponseDto>>
                 {
                     Success = false,
-                    Message = $"Error al obtener proyectos: {ex.Message}",
+                    Message = $"Error retrieving projects: {ex.Message}",
                     Data = null
                 };
             }
@@ -85,7 +85,7 @@ namespace Template_API.Services
                 return new Response<ProjectResponseDto>
                 {
                     Success = true,
-                    Message = "Proyecto obtenido exitosamente",
+                    Message = "Project retrieved successfully",
                     Data = projectDto
                 };
             }
@@ -94,7 +94,7 @@ namespace Template_API.Services
                 return new Response<ProjectResponseDto>
                 {
                     Success = false,
-                    Message = $"Error al obtener proyecto: {ex.Message}",
+                    Message = $"Error retrieving project: {ex.Message}",
                     Data = null
                 };
             }
@@ -132,7 +132,7 @@ namespace Template_API.Services
                 return new Response<ProjectResponseDto>
                 {
                     Success = true,
-                    Message = "Proyecto creado exitosamente",
+                    Message = "Project created successfully",
                     Data = projectDto
                 };
             }
@@ -141,7 +141,7 @@ namespace Template_API.Services
                 return new Response<ProjectResponseDto>
                 {
                     Success = false,
-                    Message = $"Error al crear proyecto: {ex.Message}",
+                    Message = $"Error creating project: {ex.Message}",
                     Data = null
                 };
             }
@@ -187,7 +187,7 @@ namespace Template_API.Services
                 return new Response<ProjectResponseDto>
                 {
                     Success = true,
-                    Message = "Proyecto actualizado exitosamente",
+                    Message = "Project updated successfully",
                     Data = projectDto
                 };
             }
@@ -196,7 +196,7 @@ namespace Template_API.Services
                 return new Response<ProjectResponseDto>
                 {
                     Success = false,
-                    Message = $"Error al actualizar proyecto: {ex.Message}",
+                    Message = $"Error updating project: {ex.Message}",
                     Data = null
                 };
             }
@@ -230,7 +230,7 @@ namespace Template_API.Services
                 return new Response<bool>
                 {
                     Success = true,
-                    Message = "Proyecto eliminado exitosamente",
+                    Message = "Project deleted successfully",
                     Data = true
                 };
             }
@@ -239,7 +239,7 @@ namespace Template_API.Services
                 return new Response<bool>
                 {
                     Success = false,
-                    Message = $"Error al eliminar proyecto: {ex.Message}",
+                    Message = $"Error deleting project: {ex.Message}",
                     Data = false
                 };
             }

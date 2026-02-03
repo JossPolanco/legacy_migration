@@ -65,7 +65,7 @@ namespace Template_API.Services
                 return new Response<List<NotificationResponseDto>>
                 {
                     Success = true,
-                    Message = "Notificaciones obtenidas exitosamente",
+                    Message = "Notifications retrieved successfully",
                     Data = notifications
                 };
             }
@@ -74,7 +74,7 @@ namespace Template_API.Services
                 return new Response<List<NotificationResponseDto>>
                 {
                     Success = false,
-                    Message = $"Error al obtener notificaciones: {ex.Message}",
+                    Message = $"Error retrieving notifications: {ex.Message}",
                     Data = new List<NotificationResponseDto>()
                 };
             }
@@ -134,7 +134,7 @@ namespace Template_API.Services
                 return new Response<NotificationResponseDto>
                 {
                     Success = false,
-                    Message = $"Error al crear notificación: {ex.Message}",
+                    Message = $"Error creating notification: {ex.Message}",
                     Data = null
                 };
             }
@@ -168,7 +168,7 @@ namespace Template_API.Services
                 return new Response<bool>
                 {
                     Success = false,
-                    Message = $"Error al marcar notificaciones como leídas: {ex.Message}",
+                    Message = $"Error marking notifications as read: {ex.Message}",
                     Data = false
                 };
             }
@@ -207,7 +207,7 @@ namespace Template_API.Services
                 return new Response<bool>
                 {
                     Success = false,
-                    Message = $"Error al marcar notificación como leída: {ex.Message}",
+                    Message = $"Error marking notification as read: {ex.Message}",
                     Data = false
                 };
             }
@@ -232,7 +232,7 @@ namespace Template_API.Services
                 return new Response<int>
                 {
                     Success = false,
-                    Message = $"Error al obtener conteo de notificaciones: {ex.Message}",
+                    Message = $"Error retrieving notification count: {ex.Message}",
                     Data = 0
                 };
             }

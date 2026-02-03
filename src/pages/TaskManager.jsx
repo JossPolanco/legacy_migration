@@ -62,7 +62,7 @@ const TaskManager = () => {
           loadStatistics()
         ]);
       } catch (error) {
-        setError('Error al cargar los datos iniciales');
+        setError('Error loading initial data');
         console.error('Error loading initial data:', error);
       } finally {
         setLoading(false);
@@ -157,7 +157,7 @@ const TaskManager = () => {
           await logHistoryEvent(
             newTaskId,
             'CREATED',
-            `Tarea creada: "${taskData.title}"`
+            `Task created: "${taskData.title}"`
           );
         }
         
@@ -165,7 +165,7 @@ const TaskManager = () => {
         await loadTasks();
         await loadStatistics();
         setSelectedTask(null);
-        showNotification('Tarea creada exitosamente', 'success');
+        showNotification('Task created successfully', 'success');
       } else {
         showNotification(response.message || 'Error al crear la tarea', 'error');
       }
@@ -184,25 +184,25 @@ const TaskManager = () => {
       const changes = [];
 
       if (oldTask && oldTask.title !== taskData.title) {
-        changes.push(`Título: "${oldTask.title}" → "${taskData.title}"`);
+        changes.push(`Title: "${oldTask.title}" → "${taskData.title}"`);
       }
       if (oldTask && oldTask.description !== taskData.description) {
-        changes.push(`Descripción modificada`);
+        changes.push(`Description modified`);
       }
       if (oldTask && oldTask.stateId !== taskData.stateId) {
-        const oldState = states.find(s => s.id === oldTask.stateId)?.name || 'desconocido';
-        const newState = states.find(s => s.id === taskData.stateId)?.name || 'desconocido';
-        changes.push(`Estado: "${oldState}" → "${newState}"`);
+        const oldState = states.find(s => s.id === oldTask.stateId)?.name || 'unknown';
+        const newState = states.find(s => s.id === taskData.stateId)?.name || 'unknown';
+        changes.push(`State: "${oldState}" → "${newState}"`);
       }
       if (oldTask && oldTask.priorityId !== taskData.priorityId) {
-        const oldPriority = priorities.find(p => p.id === oldTask.priorityId)?.name || 'desconocida';
-        const newPriority = priorities.find(p => p.id === taskData.priorityId)?.name || 'desconocida';
-        changes.push(`Prioridad: "${oldPriority}" → "${newPriority}"`);
+        const oldPriority = priorities.find(p => p.id === oldTask.priorityId)?.name || 'unknown';
+        const newPriority = priorities.find(p => p.id === taskData.priorityId)?.name || 'unknown';
+        changes.push(`Priority: "${oldPriority}" → "${newPriority}"`);
       }
       if (oldTask && oldTask.asignedId !== taskData.asignedId) {
-        const oldUser = users.find(u => u.id === oldTask.asignedId)?.username || 'sin asignar';
-        const newUser = users.find(u => u.id === taskData.asignedId)?.username || 'sin asignar';
-        changes.push(`Asignado a: "${oldUser}" → "${newUser}"`);
+        const oldUser = users.find(u => u.id === oldTask.asignedId)?.username || 'unassigned';
+        const newUser = users.find(u => u.id === taskData.asignedId)?.username || 'unassigned';
+        changes.push(`Assigned to: "${oldUser}" → "${newUser}"`);
       }
 
       const response = await apiRequest('/tasks', {
@@ -217,7 +217,7 @@ const TaskManager = () => {
           await logHistoryEvent(
             taskData.id,
             'UPDATED',
-            `Cambios realizados:\n${changes.join('\n')}`
+            `Changes made:\n${changes.join('\n')}`
           );
         }
         
@@ -225,7 +225,7 @@ const TaskManager = () => {
         await loadTasks();
         await loadStatistics();
         setSelectedTask(null);
-        showNotification('Tarea actualizada exitosamente', 'success');
+        showNotification('Task updated successfully', 'success');
       } else {
         showNotification(response.message || 'Error al actualizar la tarea', 'error');
       }
@@ -238,7 +238,7 @@ const TaskManager = () => {
   };
 
   const handleTaskDelete = async (taskId) => {
-    if (window.confirm('¿Está seguro de que desea eliminar esta tarea?')) {
+    if (window.confirm('Are you sure you want to delete this task?')) {
       setActionLoading(true);
       try {
         const taskToDelete = tasks.find(t => t.id === taskId);
@@ -252,14 +252,14 @@ const TaskManager = () => {
             await logHistoryEvent(
               taskId,
               'DELETED',
-              `Tarea eliminada: "${taskToDelete.title}"`
+              `Task deleted: "${taskToDelete.title}"`
             );
           }
           
           await loadTasks();
           await loadStatistics();
           setSelectedTask(null);
-          showNotification('Tarea eliminada exitosamente', 'success');
+          showNotification('Task deleted successfully', 'success');
         } else {
           showNotification(response.message || 'Error al eliminar la tarea', 'error');
         }
@@ -281,11 +281,11 @@ const TaskManager = () => {
   };
 
   if (!token) {
-    return <div className="text-center py-10 text-gray-500 text-lg">Debe iniciar sesión para ver esta página</div>;
+    return <div className="text-center py-10 text-gray-500 text-lg">You must log in to view this page</div>;
   }
 
   if (loading) {
-    return <div className="text-center py-10 text-gray-500 text-lg">Cargando...</div>;
+    return <div className="text-center py-10 text-gray-500 text-lg">Loading...</div>;
   }
 
   if (error) {
@@ -294,7 +294,7 @@ const TaskManager = () => {
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-md">
-      <h2 className="text-2xl mb-6 text-slate-800">Gestión de Tareas</h2>
+      <h2 className="text-2xl mb-6 text-slate-800">Task Management</h2>
 
       {/* Notificación Toast */}
       {notification && (
@@ -327,7 +327,7 @@ const TaskManager = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-6 mb-6">
         <div>
-          <h3 className="text-lg mb-4 text-slate-700 border-b-2 border-gray-200 pb-2">Nueva/Editar Tarea</h3>
+          <h3 className="text-lg mb-4 text-slate-700 border-b-2 border-gray-200 pb-2">New/Edit Task</h3>
           <TaskForm
             task={selectedTask}
             projects={projects}
@@ -342,7 +342,7 @@ const TaskManager = () => {
         </div>
 
         <div>
-          <h3 className="text-lg mb-4 text-slate-700 border-b-2 border-gray-200 pb-2">Lista de Tareas</h3>
+          <h3 className="text-lg mb-4 text-slate-700 border-b-2 border-gray-200 pb-2">Task List</h3>
           <TaskList tasks={tasks} onTaskSelect={handleTaskSelect} selectedTaskId={selectedTask?.id} />
         </div>
       </div>

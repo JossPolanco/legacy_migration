@@ -21,7 +21,7 @@ const Login = () => {
         e.preventDefault()
         setError(null)
         if (!username.trim() || !password.trim()) {
-            setError('Ingrese usuario y contraseña')
+            setError('Enter username and password')
             return
         }
         try {
@@ -29,7 +29,7 @@ const Login = () => {
             await login(username.trim(), password)
             // Navigation will happen automatically via useEffect
         } catch (err) {
-            setError('No se pudo iniciar sesión')
+            setError('Failed to log in')
         } finally {
             setSubmitting(false)
         }
@@ -41,7 +41,7 @@ const Login = () => {
         <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
             <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6 border border-gray-200">
                 <h1 className="text-2xl font-semibold text-slate-800 mb-1 text-center">Task Manager</h1>
-                <p className="text-sm text-gray-600 text-center mb-6">Inicie sesión para continuar</p>
+                <p className="text-sm text-gray-600 text-center mb-6">Sign in to continue</p>
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
@@ -55,7 +55,7 @@ const Login = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                         <input
                             type="password"
                             value={password}

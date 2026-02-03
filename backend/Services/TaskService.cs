@@ -48,7 +48,7 @@ namespace Template_API.Services
                 return new Response<List<TaskResponseDto>>
                 {
                     Success = true,
-                    Message = "Tareas obtenidas exitosamente",
+                    Message = "Tasks retrieved successfully",
                     Data = taskDtos
                 };
             }
@@ -57,7 +57,7 @@ namespace Template_API.Services
                 return new Response<List<TaskResponseDto>>
                 {
                     Success = false,
-                    Message = $"Error al obtener tareas: {ex.Message}",
+                    Message = $"Error retrieving tasks: {ex.Message}",
                     Data = null
                 };
             }
@@ -105,7 +105,7 @@ namespace Template_API.Services
                 return new Response<TaskResponseDto>
                 {
                     Success = true,
-                    Message = "Tarea obtenida exitosamente",
+                    Message = "Task retrieved successfully",
                     Data = taskDto
                 };
             }
@@ -114,7 +114,7 @@ namespace Template_API.Services
                 return new Response<TaskResponseDto>
                 {
                     Success = false,
-                    Message = $"Error al obtener tarea: {ex.Message}",
+                    Message = $"Error retrieving task: {ex.Message}",
                     Data = null
                 };
             }
@@ -195,7 +195,7 @@ namespace Template_API.Services
                 return new Response<TaskResponseDto>
                 {
                     Success = true,
-                    Message = "Tarea creada exitosamente",
+                    Message = "Task created successfully",
                     Data = taskDto
                 };
             }
@@ -204,7 +204,7 @@ namespace Template_API.Services
                 return new Response<TaskResponseDto>
                 {
                     Success = false,
-                    Message = $"Error al crear tarea: {ex.Message}",
+                    Message = $"Error creating task: {ex.Message}",
                     Data = null
                 };
             }
@@ -304,7 +304,7 @@ namespace Template_API.Services
                 return new Response<TaskResponseDto>
                 {
                     Success = true,
-                    Message = "Tarea actualizada exitosamente",
+                    Message = "Task updated successfully",
                     Data = taskDto
                 };
             }
@@ -313,7 +313,7 @@ namespace Template_API.Services
                 return new Response<TaskResponseDto>
                 {
                     Success = false,
-                    Message = $"Error al actualizar tarea: {ex.Message}",
+                    Message = $"Error updating task: {ex.Message}",
                     Data = null
                 };
             }
@@ -347,7 +347,7 @@ namespace Template_API.Services
                 return new Response<bool>
                 {
                     Success = true,
-                    Message = "Tarea eliminada exitosamente",
+                    Message = "Task deleted successfully",
                     Data = true
                 };
             }
@@ -356,7 +356,7 @@ namespace Template_API.Services
                 return new Response<bool>
                 {
                     Success = false,
-                    Message = $"Error al eliminar tarea: {ex.Message}",
+                    Message = $"Error deleting task: {ex.Message}",
                     Data = false
                 };
             }
@@ -384,7 +384,7 @@ namespace Template_API.Services
                 return new Response<TaskStatisticsDto>
                 {
                     Success = true,
-                    Message = "Estadísticas obtenidas exitosamente",
+                    Message = "Statistics retrieved successfully",
                     Data = statistics
                 };
             }
@@ -393,7 +393,7 @@ namespace Template_API.Services
                 return new Response<TaskStatisticsDto>
                 {
                     Success = false,
-                    Message = $"Error al obtener estadísticas: {ex.Message}",
+                    Message = $"Error retrieving statistics: {ex.Message}",
                     Data = null
                 };
             }
@@ -444,7 +444,7 @@ namespace Template_API.Services
                 return new Response<List<dynamic>>
                 {
                     Success = true,
-                    Message = "Reporte de tareas por estado obtenido exitosamente",
+                    Message = "Task report by state retrieved successfully",
                     Data = result
                 };
             }
@@ -453,7 +453,7 @@ namespace Template_API.Services
                 return new Response<List<dynamic>>
                 {
                     Success = false,
-                    Message = $"Error al obtener reporte de tareas: {ex.Message}",
+                    Message = $"Error retrieving task report: {ex.Message}",
                     Data = new List<dynamic>()
                 };
             }
@@ -477,7 +477,7 @@ namespace Template_API.Services
                 return new Response<List<dynamic>>
                 {
                     Success = true,
-                    Message = "Reporte de tareas por proyecto obtenido exitosamente",
+                    Message = "Task report by project retrieved successfully",
                     Data = report.Cast<dynamic>().ToList()
                 };
             }
@@ -486,7 +486,7 @@ namespace Template_API.Services
                 return new Response<List<dynamic>>
                 {
                     Success = false,
-                    Message = $"Error al obtener reporte de proyectos: {ex.Message}",
+                    Message = $"Error retrieving project report: {ex.Message}",
                     Data = new List<dynamic>()
                 };
             }
@@ -510,7 +510,7 @@ namespace Template_API.Services
                 return new Response<List<dynamic>>
                 {
                     Success = true,
-                    Message = "Reporte de tareas por usuario obtenido exitosamente",
+                    Message = "Task report by user retrieved successfully",
                     Data = report.Cast<dynamic>().ToList()
                 };
             }
@@ -519,7 +519,7 @@ namespace Template_API.Services
                 return new Response<List<dynamic>>
                 {
                     Success = false,
-                    Message = $"Error al obtener reporte de usuarios: {ex.Message}",
+                    Message = $"Error retrieving user report: {ex.Message}",
                     Data = new List<dynamic>()
                 };
             }

@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
   const login = async (username, password) => {
     const u = String(username || '').trim()
     const p = String(password || '')
-    if (!u || !p) throw new Error('Ingrese usuario y contraseña')
+    if (!u || !p) throw new Error('Enter username and password')
 
     // Detectar automáticamente el entorno
     const getBaseUrl = () => {
@@ -64,8 +64,8 @@ export function AuthProvider({ children }) {
     })
 
     if (!res.ok) {
-      if (res.status === 401) throw new Error('Credenciales inválidas')
-      throw new Error('Error de autenticación')
+      if (res.status === 401) throw new Error('Invalid credentials')
+      throw new Error('Authentication error')
     }
 
     const data = await res.json()

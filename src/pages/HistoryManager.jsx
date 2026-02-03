@@ -35,7 +35,7 @@ const HistoryManager = () => {
 
     const loadTaskHistory = async () => {
         if (!taskId.trim()) {
-            setError('Por favor ingrese una ID de tarea válida');
+            setError('Please enter a valid task ID');
             return;
         }
 
@@ -47,15 +47,15 @@ const HistoryManager = () => {
             if (response.success) {
                 setHistory(response.data || []);
                 if (!response.data || response.data.length === 0) {
-                    setError('No se encontró historial para esta tarea');
+                    setError('No history found for this task');
                 }
             } else {
-                setError(response.message || 'Error al cargar el historial');
+                setError(response.message || 'Error loading history');
                 setHistory([]);
             }
         } catch (error) {
             console.error('Error loading history:', error);
-            setError('Error al cargar el historial de la tarea');
+            setError('Error loading task history');
             setHistory([]);
         } finally {
             setLoading(false);
@@ -72,15 +72,15 @@ const HistoryManager = () => {
             if (response.success) {
                 setHistory(response.data || []);
                 if (!response.data || response.data.length === 0) {
-                    setError('No hay historial disponible');
+                    setError('No history available');
                 }
             } else {
-                setError(response.message || 'Error al cargar el historial');
+                setError(response.message || 'Error loading history');
                 setHistory([]);
             }
         } catch (error) {
             console.error('Error loading all history:', error);
-            setError('Error al cargar el historial completo');
+            setError('Error loading complete history');
             setHistory([]);
         } finally {
             setLoading(false);
@@ -148,18 +148,18 @@ const HistoryManager = () => {
 
     return (
         <div className="bg-white rounded-lg p-6 shadow-md">
-            <h2 className="text-2xl mb-6 text-slate-800">Historial de Cambios</h2>
+            <h2 className="text-2xl mb-6 text-slate-800">Change History</h2>
 
             <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <h3 className="text-lg mb-4 text-slate-700 font-semibold">Buscar Historial</h3>
+                <h3 className="text-lg mb-4 text-slate-700 font-semibold">Search History</h3>
                 <div className="flex gap-4 items-end">
                     <div className="flex-1">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">ID de la Tarea</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Task ID</label>
                         <input
                             type="number"
                             value={taskId}
                             onChange={(e) => setTaskId(e.target.value)}
-                            placeholder="Ingrese la ID de la tarea"
+                            placeholder="Enter task ID"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             onKeyPress={(e) => e.key === 'Enter' && loadTaskHistory()}
                         />
@@ -170,7 +170,7 @@ const HistoryManager = () => {
                         className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-gray-400 transition-colors flex items-center gap-2"
                     >
                         {loading ? <Loader className="w-4 h-4 animate-spin" /> : null}
-                        Cargar Historial
+                        Load History
                     </button>
                     <button
                         onClick={loadAllHistory}
@@ -178,7 +178,7 @@ const HistoryManager = () => {
                         className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 disabled:bg-gray-400 transition-colors flex items-center gap-2"
                     >
                         {loading ? <Loader className="w-4 h-4 animate-spin" /> : null}
-                        Cargar Todo
+                        Load All
                     </button>
                 </div>
             </div>
@@ -192,14 +192,14 @@ const HistoryManager = () => {
             <div className="border border-gray-200 rounded-lg">
                 <div className="bg-gray-50 border-b border-gray-200 p-4">
                     <h3 className="text-lg font-semibold text-slate-800">
-                        HISTORIAL DE CAMBIOS ({history.length} registros)
+                        CHANGE HISTORY ({history.length} records)
                     </h3>
                 </div>
 
                 <div className="max-h-96 overflow-y-auto">
                     {history.length === 0 && !loading ? (
                         <div className="p-6 text-center text-gray-500">
-                            No hay registros de historial disponibles
+                            No history records available
                         </div>
                     ) : (
                         <div className="divide-y divide-gray-200">
@@ -219,7 +219,7 @@ const HistoryManager = () => {
                                                         {item.action}
                                                     </span>
                                                     <span className="text-sm text-gray-600">
-                                                        Tarea ID: {item.taskId}
+                                                        Task ID: {item.taskId}
                                                     </span>
                                                 </div>
                                                 <div className="text-sm font-mono text-gray-700">
@@ -239,7 +239,7 @@ const HistoryManager = () => {
                                     {expandedItems[item.id] && (
                                         <div className="px-4 pb-4 pt-2 border-t border-gray-200 bg-gray-50 bg-opacity-50">
                                             <div className="text-sm">
-                                                <div className="font-semibold text-gray-700 mb-2">Descripción:</div>
+                                                <div className="font-semibold text-gray-700 mb-2">Description:</div>
                                                 <div className="font-mono text-gray-600 bg-white p-3 rounded border border-gray-200 whitespace-pre-wrap">
                                                     {item.description}
                                                 </div>

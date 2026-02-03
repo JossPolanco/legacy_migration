@@ -53,11 +53,11 @@ const CommentManager = () => {
         setComments(response.data || []);
         setError('');
       } else {
-        setError(response.message || 'Error al cargar comentarios');
+        setError(response.message || 'Error loading comments');
         setComments([]);
       }
     } catch (error) {
-      setError('Error al cargar comentarios de la tarea');
+      setError('Error loading task comments');
       setComments([]);
       console.error('Error loading task comments:', error);
     } finally {
@@ -77,11 +77,11 @@ const CommentManager = () => {
         setComments(response.data || []);
         setError('');
       } else {
-        setError(response.message || 'Error al cargar todos los comentarios');
+        setError(response.message || 'Error loading all comments');
         setComments([]);
       }
     } catch (error) {
-      setError('Error al cargar todos los comentarios');
+      setError('Error loading all comments');
       setComments([]);
       console.error('Error loading all comments:', error);
     } finally {
@@ -97,7 +97,7 @@ const CommentManager = () => {
     }
 
     if (!comment.trim()) {
-      setError('El comentario es requerido');
+      setError('Comment is required');
       return;
     }
 
@@ -128,10 +128,10 @@ const CommentManager = () => {
           await loadAllComments();
         }
       } else {
-        setError(response.message || 'Error al agregar comentario');
+        setError(response.message || 'Error adding comment');
       }
     } catch (error) {
-      setError('Error al agregar comentario');
+      setError('Error adding comment');
       console.error('Error adding comment:', error);
     } finally {
       setLoading(false);
@@ -149,12 +149,12 @@ const CommentManager = () => {
   };
 
   if (!token) {
-    return <div className="text-center py-10 text-gray-500 text-lg">Debe iniciar sesión para ver esta página</div>;
+    return <div className="text-center py-10 text-gray-500 text-lg">You must log in to view this page</div>;
   }
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-md">
-      <h2 className="text-2xl mb-4 text-slate-800">Comentarios de Tareas</h2>
+      <h2 className="text-2xl mb-4 text-slate-800">Task Comments</h2>
 
       {error && (
         <div className="mb-4 rounded border border-red-300 bg-red-50 px-4 py-2 text-red-700">
@@ -165,11 +165,11 @@ const CommentManager = () => {
       {/* Form Section */}
       <div className="mb-6 border-b border-gray-200 pb-6">
         <div className="mb-4">
-          <label className="block text-sm font-medium text-slate-700 mb-2">ID Tarea</label>
+          <label className="block text-sm font-medium text-slate-700 mb-2">Task ID</label>
           <input
             type="number"
             className="w-full rounded border border-slate-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Ingrese el ID de la tarea"
+            placeholder="Enter task ID"
             value={taskId}
             onChange={e => setTaskId(e.target.value)}
             disabled={loading}
@@ -178,11 +178,11 @@ const CommentManager = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-slate-700 mb-2">Comentario</label>
+          <label className="block text-sm font-medium text-slate-700 mb-2">Comment</label>
           <textarea
             className="w-full rounded border border-slate-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             rows={4}
-            placeholder="Ingrese su comentario"
+            placeholder="Enter your comment"
             value={comment}
             onChange={e => setComment(e.target.value)}
             disabled={loading}
@@ -195,21 +195,21 @@ const CommentManager = () => {
             disabled={loading}
             onClick={handleSubmitComment}
           >
-            {loading ? 'Agregando...' : 'Agregar Comentario'}
+            {loading ? 'Adding...' : 'Add Comment'}
           </button>
           <button
             className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-500 disabled:opacity-50 transition duration-200"
             disabled={loading}
             onClick={loadCommentsByTask}
           >
-            {loading ? 'Cargando...' : 'Cargar Comentarios'}
+            {loading ? 'Loading...' : 'Load Comments'}
           </button>
           <button
             className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-500 disabled:opacity-50 transition duration-200"
             disabled={loading}
             onClick={loadAllComments}
           >
-            {loading ? 'Cargando...' : 'Cargar Todos los Comentarios'}
+            {loading ? 'Loading...' : 'Load All Comments'}
           </button>
         </div>
       </div>
@@ -217,24 +217,24 @@ const CommentManager = () => {
       {/* Comments Display Section */}
       <div className="mb-4">
         <h3 className="text-lg mb-4 text-slate-700 border-b-2 border-gray-200 pb-2">
-          {showAllComments ? 'Todos los Comentarios' : `Comentarios${taskId ? ` - Tarea ${taskId}` : ''}`}
+          {showAllComments ? 'All Comments' : `Comments${taskId ? ` - Task ${taskId}` : ''}`}
           {comments.length > 0 && (
-            <span className="text-sm text-gray-500 ml-2">({comments.length} comentarios)</span>
+            <span className="text-sm text-gray-500 ml-2">({comments.length} comments)</span>
           )}
         </h3>
 
         <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 min-h-[400px] max-h-[600px] overflow-y-auto">
           {loading && comments.length === 0 ? (
             <div className="text-center text-gray-500 py-8">
-              Cargando comentarios...
+              Loading comments...
             </div>
           ) : comments.length === 0 ? (
             <div className="text-center text-gray-500 py-8">
               {showAllComments 
-                ? 'No hay comentarios en el sistema.' 
+                ? 'No comments in the system.' 
                 : taskId 
-                  ? `No hay comentarios para la tarea ${taskId}.` 
-                  : 'Ingrese un ID de tarea y haga clic en "Cargar Comentarios".'
+                  ? `No comments for task ${taskId}.` 
+                  : 'Enter a task ID and click "Load Comments".'
               }
             </div>
           ) : (
@@ -248,7 +248,7 @@ const CommentManager = () => {
                       </span>
                       {showAllComments && (
                         <span className="text-sm text-blue-600 bg-blue-100 px-2 py-1 rounded">
-                          Tarea #{commentItem.taskId}: {commentItem.taskTitle}
+                          Task #{commentItem.taskId}: {commentItem.taskTitle}
                         </span>
                       )}
                     </div>

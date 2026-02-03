@@ -12,9 +12,9 @@ const NavigationBar = () => {
         { id: 'projects', label: 'Projects', path: '/app/projects' },
         { id: 'comments', label: 'Comments', path: '/app/comments' },
         { id: 'history', label: 'History', path: '/app/historial' },
-        { id: 'notificaciones', label: 'Notificaciones', path: '/app/notificaciones' },
-        { id: 'busqueda', label: 'Búsqueda', path: '/app/busqueda' },
-        { id: 'reportes', label: 'Reportes', path: '/app/reportes' },
+        { id: 'notificaciones', label: 'Notifications', path: '/app/notificaciones' },
+        { id: 'busqueda', label: 'Search', path: '/app/busqueda' },
+        { id: 'reportes', label: 'Reports', path: '/app/reportes' },
     ]
 
     const handleTabClick = (path) => {
@@ -51,7 +51,7 @@ const NavigationBar = () => {
                         onClick={handleLogout}
                         className="px-4 py-2 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors"
                     >
-                        Cerrar Sesión
+                        Sign Out
                     </button>
                 </div>
             </div>

@@ -93,34 +93,34 @@ const SearchManager = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Búsqueda Avanzada</h2>
+      <h2 className="text-2xl font-bold mb-6">Advanced Search</h2>
 
       {/* Formulario de búsqueda */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Texto:
+              Text:
             </label>
             <input
               type="text"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Buscar en título o descripción..."
+              placeholder="Search in title or description..."
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Estado:
+              State:
             </label>
             <select
               value={selectedState}
               onChange={(e) => setSelectedState(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">Todos</option>
+              <option value="">All</option>
               {states.map(state => (
                 <option key={state.id} value={state.id}>
                   {state.name}
@@ -131,14 +131,14 @@ const SearchManager = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Prioridad:
+              Priority:
             </label>
             <select
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">Todos</option>
+              <option value="">All</option>
               {priorities.map(priority => (
                 <option key={priority.id} value={priority.id}>
                   {priority.name}
@@ -149,14 +149,14 @@ const SearchManager = () => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Proyecto:
+              Project:
             </label>
             <select
               value={selectedProject}
               onChange={(e) => setSelectedProject(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">Todos</option>
+              <option value="">All</option>
               {projects.map(project => (
                 <option key={project.id} value={project.id}>
                   {project.name}
@@ -171,7 +171,7 @@ const SearchManager = () => {
           disabled={loading}
           className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Buscando...' : 'Buscar'}
+          {loading ? 'Searching...' : 'Search'}
         </button>
       </div>
 
@@ -184,16 +184,16 @@ const SearchManager = () => {
                 ID
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Título
+                Title
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Estado
+                State
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Prioridad
+                Priority
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Proyecto
+                Project
               </th>
             </tr>
           </thead>
@@ -201,7 +201,7 @@ const SearchManager = () => {
             {tasks.length === 0 ? (
               <tr>
                 <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
-                  {loading ? 'Buscando...' : 'No se encontraron tareas. Usa los filtros y presiona "Buscar".'}
+                  {loading ? 'Searching...' : 'No tasks found. Use filters and press "Search".'}
                 </td>
               </tr>
             ) : (

@@ -11,25 +11,25 @@ const TaskStatistics = ({ statistics }) => {
       textColor: 'text-blue-600'
     },
     {
-      label: 'Completadas',
+      label: 'Completed',
       value: statistics.completed,
       color: 'bg-green-500',
       textColor: 'text-green-600'
     },
     {
-      label: 'Pendientes',
+      label: 'Pending',
       value: statistics.pending,
       color: 'bg-yellow-500',
       textColor: 'text-yellow-600'
     },
     {
-      label: 'Alta Prioridad',
+      label: 'High Priority',
       value: statistics.highPriority,
       color: 'bg-orange-500',
       textColor: 'text-orange-600'
     },
     {
-      label: 'Vencidas',
+      label: 'Overdue',
       value: statistics.overdue,
       color: 'bg-red-500',
       textColor: 'text-red-600'
@@ -39,7 +39,7 @@ const TaskStatistics = ({ statistics }) => {
   return (
     <div className="mt-6">
       <h3 className="text-lg font-medium text-gray-900 mb-4 border-b-2 border-gray-200 pb-2">
-        Estadísticas
+        Statistics
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {stats.map((stat, index) => (

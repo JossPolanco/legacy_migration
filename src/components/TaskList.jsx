@@ -48,22 +48,22 @@ const TaskList = ({ tasks, onTaskSelect, selectedTaskId }) => {
               ID
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Título
+              Title
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Estado
+              State
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Prioridad
+              Priority
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Proyecto
+              Project
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Asignado
+              Assigned
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Vencimiento
+              Expiration
             </th>
           </tr>
         </thead>
@@ -71,7 +71,7 @@ const TaskList = ({ tasks, onTaskSelect, selectedTaskId }) => {
           {tasks.length === 0 ? (
             <tr>
               <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
-                No hay tareas disponibles
+                No tasks available
               </td>
             </tr>
           ) : (
@@ -110,13 +110,13 @@ const TaskList = ({ tasks, onTaskSelect, selectedTaskId }) => {
                   {task.projectName}
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-900">
-                  {task.asignedName || 'Sin asignar'}
+                  {task.asignedName || 'Unassigned'}
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-900">
                   <div className={isOverdue(task.expirationDate, task.stateId) ? 'text-red-600 font-medium' : ''}>
                     {formatDate(task.expirationDate)}
                     {isOverdue(task.expirationDate, task.stateId) && (
-                      <div className="text-xs text-red-500">Vencida</div>
+                      <div className="text-xs text-red-500">Overdue</div>
                     )}
                   </div>
                 </td>

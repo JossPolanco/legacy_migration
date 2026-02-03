@@ -141,7 +141,7 @@ namespace Template_API.Controllers
                 return Ok(new
                 {
                     success = true,
-                    message = "Usuarios obtenidos exitosamente",
+                    message = "Users retrieved successfully",
                     data = users
                 });
             }
@@ -169,7 +169,7 @@ namespace Template_API.Controllers
                 return Ok(new
                 {
                     success = true,
-                    message = "Proyectos obtenidos exitosamente",
+                    message = "Projects retrieved successfully",
                     data = projects
                 });
             }
@@ -197,7 +197,7 @@ namespace Template_API.Controllers
                 return Ok(new
                 {
                     success = true,
-                    message = "Estados obtenidos exitosamente",
+                    message = "States retrieved successfully",
                     data = states
                 });
             }
@@ -225,7 +225,7 @@ namespace Template_API.Controllers
                 return Ok(new
                 {
                     success = true,
-                    message = "Prioridades obtenidas exitosamente",
+                    message = "Priorities retrieved successfully",
                     data = priorities
                 });
             }

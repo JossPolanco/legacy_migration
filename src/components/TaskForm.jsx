@@ -64,7 +64,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Título:
+          Title:
         </label>
         <input
           type="text"
@@ -74,13 +74,13 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           required
           disabled={disabled}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
-          placeholder="Ingrese el título de la tarea"
+          placeholder="Enter task title"
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Descripción:
+          Description:
         </label>
         <textarea
           name="description"
@@ -89,13 +89,13 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           rows={3}
           disabled={disabled}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
-          placeholder="Ingrese la descripción"
+          placeholder="Enter description"
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Estado:
+          State:
         </label>
         <select
           name="stateId"
@@ -114,7 +114,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Prioridad:
+          Priority:
         </label>
         <select
           name="priorityId"
@@ -133,7 +133,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Proyecto:
+          Project:
         </label>
         <select
           name="projectId"
@@ -152,7 +152,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Asignado a:
+          Assigned to:
         </label>
         <select
           name="asignedId"
@@ -161,7 +161,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           disabled={disabled}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
         >
-          <option value={0}>Sin asignar</option>
+          <option value={0}>Unassigned</option>
           {users.map(user => (
             <option key={user.id} value={user.id}>
               {user.username}
@@ -172,7 +172,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Fecha Vencimiento:
+          Expiration Date:
         </label>
         <input
           type="date"
@@ -187,7 +187,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Horas Estimadas:
+          Estimated Hours:
         </label>
         <input
           type="number"
@@ -212,7 +212,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
           )}
-          {task?.id ? 'Actualizar' : 'Agregar'}
+          {task?.id ? 'Update' : 'Add'}
         </button>
         
         {task?.id && onDelete && (
@@ -222,7 +222,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
             disabled={disabled}
             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200 disabled:bg-red-300 disabled:cursor-not-allowed"
           >
-            Eliminar
+            Delete
           </button>
         )}
         

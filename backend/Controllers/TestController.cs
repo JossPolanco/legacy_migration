@@ -26,11 +26,11 @@ public class TestController : ControllerBase
                 var userCount = await _context.TblUsers.CountAsync();
                 return Ok(new { 
                     success = true, 
-                    message = "Conexión exitosa", 
+                    message = "Successful connection", 
                     userCount = userCount 
                 });
             }
-            return StatusCode(500, new { success = false, message = "No se pudo conectar" });
+            return StatusCode(500, new { success = false, message = "Could not connect" });
         }
         catch (Exception ex)
         {

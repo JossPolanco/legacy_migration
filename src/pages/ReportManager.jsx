@@ -44,7 +44,7 @@ const ReportManager = () => {
       if (projectsRes.success) setProjectReport(projectsRes.data);
       if (usersRes.success) setUserReport(usersRes.data);
     } catch (err) {
-      setError('Error al cargar los reportes: ' + err.message);
+      setError('Error loading reports: ' + err.message);
       console.error('Error loading reports:', err);
     } finally {
       setLoading(false);
@@ -54,20 +54,20 @@ const ReportManager = () => {
   const handleExportCSV = () => {
     let csvContent = 'data:text/csv;charset=utf-8,';
     
-    // Reporte de Tareas por Estado
-    csvContent += 'REPORTE: TAREAS\n';
+    // Task Report by State
+    csvContent += 'REPORT: TASKS\n';
     taskReport.forEach(item => {
-      csvContent += `${item.name}: ${item.count} tareas\n`;
+      csvContent += `${item.name}: ${item.count} tasks\n`;
     });
     
-    csvContent += '\nREPORTE: PROYECTOS\n';
+    csvContent += '\nREPORT: PROJECTS\n';
     projectReport.forEach(item => {
-      csvContent += `${item.name}: ${item.count} tareas\n`;
+      csvContent += `${item.name}: ${item.count} tasks\n`;
     });
     
-    csvContent += '\nREPORTE: USUARIOS\n';
+    csvContent += '\nREPORT: USERS\n';
     userReport.forEach(item => {
-      csvContent += `${item.name}: ${item.count} tareas asignadas\n`;
+      csvContent += `${item.name}: ${item.count} assigned tasks\n`;
     });
 
     const encodedUri = encodeURI(csvContent);
@@ -83,7 +83,7 @@ const ReportManager = () => {
     <div className="p-6 max-w-6xl mx-auto">
       <div className="bg-white rounded-lg shadow-md">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-800">Generación de Reportes</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Report Generation</h2>
         </div>
 
         <div className="p-6">
@@ -97,7 +97,7 @@ const ReportManager = () => {
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
-              Reporte de Tareas
+              Tasks Report
             </button>
             <button
               onClick={() => setReportType('projects')}
@@ -107,7 +107,7 @@ const ReportManager = () => {
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
-              Reporte de Proyectos
+              Projects Report
             </button>
             <button
               onClick={() => setReportType('users')}
@@ -117,13 +117,13 @@ const ReportManager = () => {
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
-              Reporte de Usuarios
+              Users Report
             </button>
             <button
               onClick={handleExportCSV}
               className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium"
             >
-              Exportar a CSV
+              Export to CSV
             </button>
           </div>
 
@@ -135,12 +135,12 @@ const ReportManager = () => {
           )}
 
           {loading ? (
-            <div className="text-center py-8 text-gray-500">Cargando reportes...</div>
+            <div className="text-center py-8 text-gray-500">Loading reports...</div>
           ) : (
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 font-mono whitespace-pre-wrap">
               {reportType === 'tasks' && (
                 <div>
-                  <div className="text-gray-700 font-bold mb-3">REPORTE: TAREAS</div>
+                  <div className="text-gray-700 font-bold mb-3">REPORT: TASKS</div>
                   {taskReport.length === 0 ? (
                     <div className="text-gray-500">No hay datos disponibles</div>
                   ) : (
@@ -155,13 +155,13 @@ const ReportManager = () => {
 
               {reportType === 'projects' && (
                 <div>
-                  <div className="text-gray-700 font-bold mb-3">REPORTE: PROYECTOS</div>
+                  <div className="text-gray-700 font-bold mb-3">REPORT: PROJECTS</div>
                   {projectReport.length === 0 ? (
                     <div className="text-gray-500">No hay datos disponibles</div>
                   ) : (
                     projectReport.map((item, index) => (
                       <div key={index} className="text-gray-700">
-                        {item.name}: {item.count} tareas
+                        {item.name}: {item.count} tasks
                       </div>
                     ))
                   )}
@@ -170,13 +170,13 @@ const ReportManager = () => {
 
               {reportType === 'users' && (
                 <div>
-                  <div className="text-gray-700 font-bold mb-3">REPORTE: USUARIOS</div>
+                  <div className="text-gray-700 font-bold mb-3">REPORT: USERS</div>
                   {userReport.length === 0 ? (
                     <div className="text-gray-500">No hay datos disponibles</div>
                   ) : (
                     userReport.map((item, index) => (
                       <div key={index} className="text-gray-700">
-                        {item.name}: {item.count} tareas asignadas
+                        {item.name}: {item.count} assigned tasks
                       </div>
                     ))
                   )}

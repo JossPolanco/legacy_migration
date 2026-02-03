@@ -52,7 +52,7 @@ namespace Template_API.Services
                 {
                     Success = false,
                     Data = new List<CommentResponseDto>(),
-                    Message = $"Error al obtener comentarios: {ex.Message}"
+                    Message = $"Error retrieving comments: {ex.Message}"
                 };
             }
         }
@@ -95,7 +95,7 @@ namespace Template_API.Services
                 {
                     Success = false,
                     Data = new List<CommentResponseDto>(),
-                    Message = $"Error al obtener todos los comentarios: {ex.Message}"
+                    Message = $"Error retrieving all comments: {ex.Message}"
                 };
             }
         }
