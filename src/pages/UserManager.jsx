@@ -114,7 +114,7 @@ const UserManager = () => {
       {/* Loading Progress Bar */}
       {loading && (
         <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-blue-200">
-          <div className="h-full bg-gradient-to-r from-blue-500 to-blue-600 animate-pulse"></div>
+          <div className="h-full bg-linear-to-r from-blue-500 to-blue-600 animate-pulse"></div>
         </div>
       )}
 
@@ -205,8 +205,6 @@ const UserManager = () => {
         <ul className="text-sm text-blue-800 space-y-1">
           <li>• Username: Unique and required</li>
           <li>• Password: Minimum 8 characters</li>
-          <li>• Status: Activated automatically on creation</li>
-          <li>• Creation date: Recorded automatically</li>
         </ul>
       </div>
     </div>

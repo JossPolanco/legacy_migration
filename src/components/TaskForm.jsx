@@ -232,7 +232,7 @@ const TaskForm = ({ task, projects, users, states, priorities, onSubmit, onDelet
           disabled={disabled}
           className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
-          Limpiar
+          Clear
         </button>
       </div>
     </form>

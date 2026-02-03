@@ -44,7 +44,7 @@ const Login = () => {
                 <p className="text-sm text-gray-600 text-center mb-6">Sign in to continue</p>
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                         <input
                             type="text"
                             value={username}

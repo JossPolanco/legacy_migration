@@ -223,7 +223,7 @@ const CommentManager = () => {
           )}
         </h3>
 
-        <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 min-h-[400px] max-h-[600px] overflow-y-auto">
+        <div className="border border-gray-200 rounded-lg p-4 bg-gray-50 min-h-100 max-h-150 overflow-y-auto">
           {loading && comments.length === 0 ? (
             <div className="text-center text-gray-500 py-8">
               Loading comments...

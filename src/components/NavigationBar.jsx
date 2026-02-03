@@ -15,6 +15,7 @@ const NavigationBar = () => {
         { id: 'notificaciones', label: 'Notifications', path: '/app/notificaciones' },
         { id: 'busqueda', label: 'Search', path: '/app/busqueda' },
         { id: 'reportes', label: 'Reports', path: '/app/reportes' },
+        { id: 'users', label: 'Users', path: '/app/users' },
     ]
 
     const handleTabClick = (path) => {

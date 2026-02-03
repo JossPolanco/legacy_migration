@@ -9,6 +9,7 @@ import HistoryManager from './pages/HistoryManager'
 import NotificationManager from './pages/NotificationManager'
 import SearchManager from './pages/SearchManager'
 import ReportManager from './pages/ReportManager'
+import UserManager from './pages/UserManager'
 
 export default function App() {
     useEffect(() => {
@@ -30,6 +31,7 @@ export default function App() {
                     <Route path="notificaciones" element={<NotificationManager />} />
                     <Route path="busqueda" element={<SearchManager />} />
                     <Route path="reportes" element={<ReportManager />} />
+                    <Route path="users" element={<UserManager />} />
                 </Route>
             </Routes>
         </Router>
