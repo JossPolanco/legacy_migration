@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useState, useCallback } from 'react'
 
 const AuthContext = createContext({
   user: null,
@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  const login = async (username, password) => {
+  const login = useCallback(async (username, password) => {
     const u = String(username || '').trim()
     const p = String(password || '')
     if (!u || !p) throw new Error('Enter username and password')
@@ -76,17 +76,17 @@ export function AuthProvider({ children }) {
     try {
       localStorage.setItem('auth', JSON.stringify({ user: nextUser, token: nextToken }))
     } catch (_) {}
-  }
+  }, [])
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null)
     setToken(null)
     try {
       localStorage.removeItem('auth')
     } catch (_) {}
-  }
+  }, [])
 
-  const value = useMemo(() => ({ user, token, loading, login, logout }), [user, token, loading])
+  const value = useMemo(() => ({ user, token, loading, login, logout }), [user, token, loading, login, logout])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

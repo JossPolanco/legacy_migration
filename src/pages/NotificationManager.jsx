@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const NotificationManager = () => {
@@ -8,6 +8,7 @@ const NotificationManager = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   
   const { token, user } = useAuth();
+  const initialLoadDone = useRef(false);
 
   const apiRequest = async (url, options = {}) => {
     try {
@@ -116,9 +117,9 @@ const NotificationManager = () => {
   };
 
   useEffect(() => {
-    if (user?.id) {
-      loadUnreadCount();
-    }
+    if (initialLoadDone.current || !user?.id) return;
+    initialLoadDone.current = true;
+    loadUnreadCount();
   }, [user]);
 
   const formatDate = (dateString) => {

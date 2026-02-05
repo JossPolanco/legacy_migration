@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 const ProjectManager = () => {
@@ -10,6 +10,7 @@ const ProjectManager = () => {
   const [error, setError] = useState('');
   
   const { token } = useAuth();
+  const initialLoadDone = useRef(false);
 
   // API request helper
   const apiRequest = async (url, options = {}) => {
@@ -54,9 +55,9 @@ const ProjectManager = () => {
 
   // Load projects on component mount
   useEffect(() => {
-    if (token) {
-      loadProjects();
-    }
+    if (initialLoadDone.current || !token) return;
+    initialLoadDone.current = true;
+    loadProjects();
   }, [token]);
 
   // Handle form submission for adding new project

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import TaskForm from '../components/TaskForm';
 import TaskList from '../components/TaskList';
 import TaskStatistics from '../components/TaskStatistics';
@@ -20,6 +20,7 @@ const TaskManager = () => {
   
   const { token } = useAuth();
   const { logHistoryEvent } = useHistoryLogger(token);
+  const initialLoadDone = useRef(false);
 
   const showNotification = (message, type = 'success') => {
     setNotification({ message, type });
@@ -51,8 +52,12 @@ const TaskManager = () => {
   // Load initial data
   useEffect(() => {
     const loadInitialData = async () => {
+      if (initialLoadDone.current || !token) return;
+      
       try {
         setLoading(true);
+        initialLoadDone.current = true;
+        
         await Promise.all([
           loadTasks(),
           loadProjects(),
@@ -69,9 +74,7 @@ const TaskManager = () => {
       }
     };
 
-    if (token) {
-      loadInitialData();
-    }
+    loadInitialData();
   }, [token]);
 
   const loadTasks = async () => {
