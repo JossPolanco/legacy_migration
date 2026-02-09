@@ -50,7 +50,7 @@ const Login = () => {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Nombre de usuario"
+                            placeholder="Username"
                             autoFocus
                         />
                     </div>
@@ -61,7 +61,7 @@ const Login = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="••••••••"
+                            placeholder="Password"
                         />
                     </div>
                     {error && <p className="text-sm text-red-600">{error}</p>}
