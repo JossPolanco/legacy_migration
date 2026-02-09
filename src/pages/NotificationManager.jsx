@@ -3,12 +3,18 @@ import { useAuth } from '../context/AuthContext';
 
 const NotificationManager = () => {
   const [notifications, setNotifications] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [notification, setNotification] = useState(null);
   
   const { token, user } = useAuth();
   const initialLoadDone = useRef(false);
+
+  const showNotification = (message, type = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   const apiRequest = async (url, options = {}) => {
     try {
@@ -44,10 +50,14 @@ const NotificationManager = () => {
       if (response.success) {
         setNotifications(response.data || []);
       } else {
-        setError(response.message || 'Error al cargar notificaciones');
+        const errorMsg = response.message || 'Error al cargar notificaciones';
+        setError(errorMsg);
+        showNotification(errorMsg, 'error');
       }
     } catch (error) {
-      setError('Connection error loading notifications');
+      const errorMsg = 'Connection error loading notifications';
+      setError(errorMsg);
+      showNotification(errorMsg, 'error');
       console.error('Error loading notifications:', error);
     } finally {
       setLoading(false);
@@ -71,11 +81,12 @@ const NotificationManager = () => {
           }))
         );
         setUnreadCount(0);
+        showNotification('All notifications marked as read', 'success');
       } else {
-        setError(response.message || 'Error marking notifications as read');
+        showNotification(response.message || 'Error marking notifications as read', 'error');
       }
     } catch (error) {
-      setError('Connection error marking notifications');
+      showNotification('Connection error marking notifications', 'error');
       console.error('Error marking notifications as read:', error);
     }
   };
@@ -96,8 +107,10 @@ const NotificationManager = () => {
           )
         );
         setUnreadCount(prev => Math.max(0, prev - 1));
+        showNotification('Notification marked as read', 'success');
       }
     } catch (error) {
+      showNotification('Error marking notification as read', 'error');
       console.error('Error marking notification as read:', error);
     }
   };
@@ -119,6 +132,7 @@ const NotificationManager = () => {
   useEffect(() => {
     if (initialLoadDone.current || !user?.id) return;
     initialLoadDone.current = true;
+    loadNotifications();
     loadUnreadCount();
   }, [user]);
 
@@ -150,99 +164,157 @@ const NotificationManager = () => {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="bg-white rounded-lg shadow-md">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800">Notifications</h2>
-          {unreadCount > 0 && (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 ml-2">
-              {unreadCount} unread
-            </span>
-          )}
+    <div className="min-h-screen p-6 rounded-xl">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-slate-900 mb-2">Notifications</h1>
+          <p className="text-slate-600">Stay updated with your task notifications</p>
         </div>
-        
-        <div className="p-6">
-          <div className="flex gap-4 mb-6">
-            <button
-              onClick={loadNotifications}
-              disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Loading...' : 'Load Notifications'}
-            </button>
-            
-            <button
-              onClick={markAllAsRead}
-              disabled={loading || notifications.length === 0}
-              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Mark as Read
-            </button>
-          </div>
 
-          {error && (
-            <div className="mb-4 p-4 text-red-700 bg-red-100 border border-red-300 rounded-md">
-              {error}
-            </div>
-          )}
-
-          <div className="border rounded-md">
-            <div className="bg-gray-50 px-4 py-2 border-b">
-              <h3 className="text-sm font-medium text-gray-700">NOTIFICATIONS</h3>
-            </div>
-            
-            <div className="max-h-96 overflow-y-auto">
-              {notifications.length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
-                  <p>No notifications to display.</p>
-                  <p className="text-sm mt-2">Click "Load Notifications" to get the latest updates.</p>
-                </div>
+        {/* Toast Notification */}
+        {notification && (
+          <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transition-all duration-300 animate-in ${
+            notification.type === 'success' 
+              ? 'bg-emerald-500 text-white' 
+              : 'bg-red-500 text-white'
+          }`}>
+            <div className="flex items-center gap-3">
+              {notification.type === 'success' ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
               ) : (
-                <div className="divide-y divide-gray-200">
-                  {notifications.map((notification) => (
-                    <div
-                      key={notification.id}
-                      className={`p-4 hover:bg-gray-50 transition-colors duration-200 ${
-                        !notification.read ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
-                      }`}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="text-lg">{getNotificationIcon(notification.type)}</span>
-                            <span className="font-medium text-gray-900">{notification.title}</span>
-                            {!notification.read && (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                New
-                              </span>
-                            )}
-                          </div>
-                          
-                          <p className="text-sm text-gray-700 mb-2">
-                            {notification.message}
-                          </p>
-                          
-                          <div className="flex items-center gap-4 text-xs text-gray-500">
-                            <span>Task: {notification.taskTitle}</span>
-                            <span>•</span>
-                            <span>{formatDate(notification.creationDate)}</span>
-                          </div>
-                        </div>
-                        
-                        {!notification.read && (
-                          <button
-                            onClick={() => markAsRead(notification.id)}
-                            className="ml-4 text-xs text-blue-600 hover:text-blue-800 focus:outline-none"
-                          >
-                            Mark read
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+              <span className="font-medium">{notification.message}</span>
+            </div>
+          </div>
+        )}
+
+        {/* Barra de progreso */}
+        {loading && (
+          <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-gradient-to-r from-blue-500 to-blue-600"></div>
+        )}
+
+        {/* Notifications Card */}
+        <div className="bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+          {/* Card Header */}
+          <div className="px-8 py-4 border-b border-slate-200 bg-gradient-to-r from-slate-800 to-slate-900">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
+                  All Notifications
+                  {unreadCount > 0 && (
+                    <span className="ml-auto bg-red-500 rounded-full px-3 py-1 text-sm font-semibold">
+                      {unreadCount} New
+                    </span>
+                  )}
+                </h2>
+                {unreadCount === 0 && notifications.length > 0 && (
+                  <p className="text-slate-300 text-sm mt-2">All notifications read</p>
+                )}
+              </div>
+              {unreadCount > 0 && (
+                <button
+                  onClick={markAllAsRead}
+                  disabled={loading}
+                  className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-all duration-200 font-medium disabled:opacity-50"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Mark All Read
+                </button>
               )}
             </div>
+          </div>
+
+          {/* Notifications List */}
+          <div className="max-h-screen overflow-y-auto">
+            {loading ? (
+              <div className="px-8 py-16 text-center">
+                <div className="flex justify-center mb-4">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                </div>
+                <p className="text-slate-600">Loading notifications...</p>
+              </div>
+            ) : notifications.length === 0 ? (
+              <div className="px-8 py-16 text-center">
+                <svg className="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+                <h3 className="text-lg font-semibold text-slate-900 mb-1">No notifications yet</h3>
+                <p className="text-slate-600 text-sm">You're all caught up!</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-slate-200">
+                {notifications.map((notif) => (
+                  <div
+                    key={notif.id}
+                    className={`px-8 py-4 transition-all duration-150 border-l-4 ${
+                      !notif.read
+                        ? 'border-l-blue-600 bg-blue-50 hover:bg-blue-100'
+                        : 'border-l-transparent hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        {/* Notification Header */}
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-2xl flex-shrink-0">
+                            {getNotificationIcon(notif.type)}
+                          </span>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-semibold text-slate-900 text-sm">
+                                {notif.title}
+                              </h3>
+                              {!notif.read && (
+                                <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
+                                  New
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-slate-500 mt-0.5">
+                              {formatDate(notif.creationDate)}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Notification Message */}
+                        <p className="text-sm text-slate-700 mb-3 leading-relaxed">
+                          {notif.message}
+                        </p>
+
+                        {/* Task Reference */}
+                        {notif.taskTitle && (
+                          <div className="inline-block bg-slate-100 rounded-lg px-3 py-2 text-xs text-slate-700">
+                            <span className="font-medium">Task:</span> {notif.taskTitle}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Mark Read Button */}
+                      {!notif.read && (
+                        <button
+                          onClick={() => markAsRead(notif.id)}
+                          disabled={loading}
+                          className="flex-shrink-0 px-3 py-1.5 text-xs font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded-md transition-colors disabled:opacity-50"
+                        >
+                          Mark Read
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

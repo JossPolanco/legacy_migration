@@ -39,7 +39,7 @@ const TaskStatistics = ({ statistics }) => {
   return (
     <div className="mt-6">
       <h3 className="text-lg font-medium text-gray-900 mb-4 border-b-2 border-gray-200 pb-2">
-        Statistics
+        
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {stats.map((stat, index) => (

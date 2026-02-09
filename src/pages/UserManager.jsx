@@ -87,7 +87,7 @@ const UserManager = () => {
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-md">
-      <h2 className="text-2xl mb-6 text-slate-800">Create New User</h2>
+      <h1 className="text-4xl font-bold text-slate-900 mb-2">Create New User</h1>
 
       {/* Toast Notification */}
       {notification && (
