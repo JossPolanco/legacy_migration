@@ -70,7 +70,7 @@ const Login = () => {
                         disabled={submitting}
                         className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md font-medium transition-colors disabled:opacity-50"
                     >
-                        {submitting ? 'Ingresando…' : 'Ingresar'}
+                        {submitting ? '.......' : 'LOGIN'}
                     </button>
                 </form>
             </div>
